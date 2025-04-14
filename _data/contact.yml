@@ -3,8 +3,9 @@
 - type: github
   icon: "fab fa-github"
 
-- type: twitter
-  icon: "fa-brands fa-x-twitter"
+- type: medium
+  icon: "fab fa-medium"
+  url: "https://medium.com/@ayxantanirverdiyev6" # change to your Medium homepage
 
 - type: email
   icon: "fas fa-envelope"

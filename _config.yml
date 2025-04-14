@@ -14,9 +14,9 @@ timezone:
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Chirpy # the main title
+title: Kh4n Security # the main title
 
-tagline: A text-focused Jekyll theme # it will display as the subtitle
+tagline: Penetration Tester |Self-Taught Hacker| Software Engineer # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
@@ -26,20 +26,20 @@ description: >- # used by seo meta and the atom feed
 url: https://4ykh4nCyb3r.github.io
 
 github:
-  username: github_username # change to your GitHub username
+  username: 4ykh4nCyb3 # change to your GitHub username
 
-twitter:
-  username: twitter_username # change to your Twitter username
+#twitter:
+#username: twitter_username # change to your Twitter username
 
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: your_full_name
-  email: example@domain.com # change to your email address
+  name: Aykhan Tanirverdiyev
+  email: ayxantanirverdiyev6@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/username # change to your Twitter homepage
-    - https://github.com/username # change to your GitHub homepage
+    - https://medium.com/@ayxantanirverdiyev6 # change to your Twitter homepage
+    - https://github.com/4ykh4nCyb3r # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
