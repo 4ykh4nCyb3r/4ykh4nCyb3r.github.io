@@ -16,7 +16,7 @@ In this walkthrough we will be solving Proving Grounds Intermediate Windows box 
 Run a quick Nmap TCP scan:
 
 ```bash
-sudo nmap -sV 192.168.194.61 --open
+sudo nmap -sV $IP --open
 ```
 
 ![image.png](image.png)
@@ -26,7 +26,7 @@ sudo nmap -sV 192.168.194.61 --open
 Run UDP scan on top 100 ports to not o miss anything valuable
 
 ```bash
-sudo nmap -sU -F 192.168.194.61
+sudo nmap -sU -F $IP
 ```
 
 ![image.png](image%201.png)
@@ -38,7 +38,7 @@ No valuable UDP ports are found.
 While interacting with other services run full Nmap port scan in the background.
 
 ```bash
-sudo nmap -p- -sV -sC 192.168.194.61 --open  
+sudo nmap -p- -sV -sC $IP --open  
 ```
 
 ## Services
@@ -54,13 +54,13 @@ Anonymous login is not allowed
 Null session is not allowed 
 
 ```bash
-smbclient -L //192.168.194.61/ -N
+smbclient -L //$IP/ -N
 ```
 
 Enum4linux does not return anything useful:
 
 ```bash
-enum4linux 192.168.194.61
+enum4linux $IP
 ```
 
 ## Web
@@ -72,7 +72,7 @@ enum4linux 192.168.194.61
 - runnin ffuf
 
 ```bash
-ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://192.168.194.61/FUZZ -fs 2166
+ffuf -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://$IP/FUZZ -fs 2166
 ```
 
 ![image.png](image%203.png)
@@ -96,7 +96,7 @@ searchsploit Nexus
 - **Directory Fuzzing**
 
 ```bash
-gobuster dir -u http://192.168.194.61:8081/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 42
+gobuster dir -u http://$IP:8081/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 42
 ```
 
 ![image.png](image%206.png)
