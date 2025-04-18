@@ -30,6 +30,8 @@ I completed the TryHackMe Penetration Tester Path, a comprehensive series of mod
 
 I completed the Practical Ethical Hacking, Linux Privilege Escalation, and Windows Privilege Escalation courses by [Heath Adams](https://www.linkedin.com/in/heathadams/), designed for aspiring ethical hackers. These courses provided in-depth knowledge in reconnaissance, scanning, and exploitation with tools like Metasploit, alongside hands-on experience in Active Directory attacks (e.g., kerberoasting, pass-the-hash) and web application testing focused on OWASP Top 10 vulnerabilities. I honed my Linux and Windows privilege escalation techniques through practical labs, mastering post-exploitation, wireless attacks, notekeeping, and report writing, preparing me for professional penetration testing engagements.
 
+📜 Check out my certifications: [Certificates](https://4ykh4ncyb3r.github.io/cv/certifications/)
+
 ---
 
 ### <i class="fas fa-lock"></i> Aquincum Institute of Technology ([AIT Budapest](https://www.ait-budapest.com/))
