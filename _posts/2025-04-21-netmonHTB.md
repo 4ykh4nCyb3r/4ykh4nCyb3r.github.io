@@ -2,7 +2,7 @@
 title: Netmon
 date: 2025-04-21
 categories: [oscp, HTB]
-tags: [oscp-preparation, walkthrough] 
+tags: [oscp-preparation, walkthrough, HTB] 
 image: netmon.png
 media_subpath: /assets/img/posts/2025-04-21-netmonHTB/
 ---
