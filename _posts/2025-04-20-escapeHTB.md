@@ -39,6 +39,11 @@ No valuable UDP ports open.
 sudo nmap -sV -sC -p- $IP -Pn -n --open -v
 ```
 
+> Add domain to `/etc/hosts` file:
+![image.png](image%203.png)
+{: .prompt-warning }
+
+
 I noticed 8 hours skew in Nmap output which means we should synchronize our clock with the target machine clock to perform Kerberos related actions, as maximum allowable clock skew in Kerberos may be 5 minutes, this prevents replay attacks in protocol.
 
 ![image.png](image%202.png)
@@ -55,13 +60,6 @@ sudo ntpdate dc.sequel.htb
 ### Port 53
 
 **Domain: sequel.htb**
-
-
-
-
-> Add domain to `/etc/hosts` file:
-![image.png](image%203.png)
-{: .prompt-warning }
 
 - dig any DNS records, maybe there is something in TXT records.
 
