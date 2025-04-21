@@ -78,7 +78,7 @@ I think we should find a newly-set password inside ftp service.
 
 I need something like configuration file so I searched for default configuration file location of PRTG NetMon and found the following `\ProgramData\Paessler\PRTG Network Monitor`
 
-> The ProgramData directory in Windows is not visible by default because it is a hidden system folder. It is set to "Hidden" in its file attributes to prevent accidental modification by users, as it stores critical application data and settings shared across users.
+> The `ProgramData` directory in Windows is not visible by default because it is a hidden system folder. It is set to "Hidden" in its file attributes to prevent accidental modification by users, as it stores critical application data and settings shared across users.
 {: .prompt-info }
 
 
