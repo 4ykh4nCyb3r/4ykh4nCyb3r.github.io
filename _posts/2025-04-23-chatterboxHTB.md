@@ -181,7 +181,7 @@ And it works !
 Use [psexec.py](http://psexec.py)  to authenticate:
 
 ```bash
-[psexec.py](http://psexec.py/) Administrator:'Welcome1!'@10.10.10.74
+psexec.py Administrator:'Welcome1!'@10.10.10.74
 ```
 
 ![image.png](image%2013.png)
@@ -203,7 +203,7 @@ Ridiculously I cannot read `root.txt` as NT Authority\System.
 I am gonna try to login as Administrator explicitly using not psexec but wmiexec as psexec automatically escalates privileges to nt authority\system.
 
 ```bash
-[wmiexec.py](http://wmiexec.py/) Administrator:'Welcome1!'@10.10.10.74
+wmiexec.py Administrator:'Welcome1!'@10.10.10.74
 ```
 
 ![image.png](image%2014.png)
