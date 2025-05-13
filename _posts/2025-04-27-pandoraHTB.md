@@ -2,7 +2,7 @@
 title: Pandora
 date: 2025-04-27
 categories: [oscp, HTB]
-tags: [oscp-preparation, walkthrough, HTB, Linux, SNMP, ssh-keygen, PandoraFMS, SUID-PATH-injection-privesc] 
+tags: [oscp-preparation, walkthrough, HTB, Linux, SNMP, ssh-keygen, PandoraFMS, SUID-PATH-hijacking-privesc] 
 image: pandora.png
 media_subpath: /assets/img/posts/2025-04-27-pandoraHTB/
 ---
