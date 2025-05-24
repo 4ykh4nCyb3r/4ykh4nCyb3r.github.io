@@ -2,7 +2,7 @@
 title: Arctic
 date: 2025-05-23
 categories: [oscp, HTB]
-tags: [oscp-preparation, walkthrough, HTB, Windows, CVE-2009-2265, , JuicyPotato-privesc] 
+tags: [oscp-preparation, walkthrough, HTB, Windows, CVE-2009-2265, JuicyPotato-privesc] 
 image: ar.png
 media_subpath: /assets/img/posts/2025-05-23-arcticHTB/
 ---
