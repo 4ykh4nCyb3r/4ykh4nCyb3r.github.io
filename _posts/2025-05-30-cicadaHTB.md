@@ -1,10 +1,10 @@
 ---
-title: Return
+title: Cicada
 date: 2025-05-30
 categories: [oscp, HTB]
 tags: [oscp-preparation, walkthrough, HTB, AD, unauth-user-enumeration, SeBackupPrivilege-privesc] 
-image: return.png
-media_subpath: /assets/img/posts/2025-05-25-returnHTB/
+image: cicada.png
+media_subpath: /assets/img/posts/2025-05-30-cicadaHTB/
 ---
 
 ## Introduction
