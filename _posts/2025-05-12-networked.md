@@ -237,7 +237,9 @@ function check_ip($prefix,$filename) {
 }
 ```
 
-In the script itself we have `nohup` binary which is written without full path too, but again it will use default minimal path (`/usr/bin/nohup`). The script will use the `if` condition only in that case when file format is not in the form of `IP_ADDRESS.<ext>`, and then will use php function `exec` in unsafe way. Though when uploading file from browser browser used function in `upload.php` to convert the name of the file to origin IP address format (10_10_14_27.jpg), so we can trigger that if condition with any name which is not IP_ADDRESS.EXT, but we are gonna try to inject the code in the name of the file. 
+In the script itself we have `nohup` binary which is written without full path too, but again it will use default minimal path (`/usr/bin/nohup`). 
+
+The script will use the `if` condition after which `exec` is used, only in that case when file format is not in the form of `IP_ADDRESS.<ext>`. Though when uploading file from browser, browser uses function in `upload.php`  and automatically converts the name of the file to origin IP address format (10_10_14_27.jpg), so we can trigger that by putting a malicious-named file in the shell itself that we have. If we put a name containin reverse shell we could be able to get a code execution.
 
 Linux filesystem is permissive, which means a user can create a file with essentially any name, except for `/` and `NULL`. Security risk arises when filenames start with `-`,  which can be interpreted as command-line option( option for a command ). 
 
