@@ -179,7 +179,7 @@ I found out that this password belongs to `svc` user, and I can see now sudo pri
 ```
 
 ```bash
-sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect {% raw %}{{json .}}{% endraw %} f8
+sudo /usr/bin/python3 /opt/scripts/system-checkup.py docker-inspect {% raw %}{{json .}}{% endraw %}f8
 ```
 
 ![image.png](image%2015.png)
