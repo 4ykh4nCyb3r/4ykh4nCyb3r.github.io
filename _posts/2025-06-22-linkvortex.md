@@ -120,7 +120,7 @@ I found the following exploit (Arbitrary File Read) for this version of applicat
 
 I am gonna search for sensitive file location of `Ghost`.
 
-Reading this [post](http://ghost.org/docs/config/#custom-configuration-files) and [this](https://github.com/docker-library/ghost/issues/73), I requested `/var/lib/ghost/config.production.json`.
+Reading this [post](https://ghost.org/docs/config/#custom-configuration-files) and [this](https://github.com/docker-library/ghost/issues/73), I requested `/var/lib/ghost/config.production.json`.
 
 ```bash
 /var/lib/ghost/config.production.json
