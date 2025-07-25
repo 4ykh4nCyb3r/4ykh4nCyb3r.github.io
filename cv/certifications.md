@@ -3,6 +3,9 @@ layout: page
 title: "Certifications"
 permalink: /cv/certifications/
 ---
+### <i class="fa-solid fa-user-secret"></i> Offensive Security
+- [OSCP+](https://credentials.offsec.com/09ff8b50-e43e-4570-b3b2-952b30adb957#acc.GdujH8TU)
+
 ### <i class="fas fa-laptop-code"></i> TryHackMe
 - [Jr Penetration Tester](https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-ZBGPIRASJ8.pdf)
 - [Web Fundamentals](https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-MYOK5BSDFX.pdf)
