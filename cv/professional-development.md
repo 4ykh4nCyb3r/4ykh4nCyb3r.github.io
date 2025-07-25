@@ -4,6 +4,16 @@ title: "Professional Development"
 permalink: /cv/professional-development/
 ---
 
+### <i class="fa-solid fa-user-secret"></i> Offensive Security
+- **PEN-200 Course**
+
+I successfully completed the Offensive Security PEN-200 course, earning the highly respected OSCP (Offensive Security Certified Professional) certification—one of the most recognized and industry-respected credentials in the field of penetration testing. This rigorous, hands-on course provided deep, practical experience across the entire penetration testing lifecycle, including topics such as buffer overflow exploits, privilege escalation, web and client-side attacks, password cracking, antivirus evasion, and Active Directory exploitation. Through real-world labs and a 24-hour practical exam, I developed proficiency in using Kali Linux, advanced command-line techniques, scripting, tunneling, pivoting, and post-exploitation. The training sharpened my ability to assess and compromise complex enterprise environments, making me a more effective and confident penetration tester.
+
+📜 Check out my certificate: [OSCP+](https://credentials.offsec.com/09ff8b50-e43e-4570-b3b2-952b30adb957#acc.n0tIzM9P)
+                              [OSCP](https://credentials.offsec.com/4bb2bbe7-0521-4dab-b756-0a450412448e#acc.PcseDgQ1)
+
+---
+
 ### <i class="fas fa-skull-crossbones"></i> [HackTheBox](https://www.hackthebox.com/)
 - **Certified Penetration Tester Specialist (CPTS) Path**
 

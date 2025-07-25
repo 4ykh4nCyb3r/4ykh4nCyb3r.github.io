@@ -5,6 +5,7 @@ permalink: /cv/certifications/
 ---
 ### <i class="fa-solid fa-user-secret"></i> Offensive Security
 - [OSCP+](https://credentials.offsec.com/09ff8b50-e43e-4570-b3b2-952b30adb957#acc.GdujH8TU)
+- [OSCP](https://credentials.offsec.com/4bb2bbe7-0521-4dab-b756-0a450412448e#acc.ABUP1QnT)
 
 ### <i class="fas fa-laptop-code"></i> TryHackMe
 - [Jr Penetration Tester](https://tryhackme-certificates.s3-eu-west-1.amazonaws.com/THM-ZBGPIRASJ8.pdf)
