@@ -6,7 +6,7 @@ icon: fa fa-file-text
 order: 5
 ---
 ## 📄 Resume
-[View Resume](https://docs.google.com/document/d/1qsgvXZgUbZjKQ7nTNIAINzwsvzCWClur/edit?usp=sharing&ouid=115677822624135431476&rtpof=true&sd=true)
+[View Resume](https://drive.google.com/file/d/1ggKq1euHQsoQu8MsjvyHYnDKREQ0q66e/view?usp=sharing)
 
 ## 📚 Professional Development
 [View Professional Development](/cv/professional-development/)
