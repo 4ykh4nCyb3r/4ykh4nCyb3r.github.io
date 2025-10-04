@@ -3,7 +3,27 @@ layout: page
 title: "Projects"
 permalink: /cv/projects/
 ---
-## <i class="fas fa-shield-alt"></i> Cybersecurity
+## <i class="fas fa-shield-alt"></i> Cybersecurity & DevSecOps
+
+### <i class="fas fa-file"></i> [Secure File Transfer (SiFT) Protocol](https://github.com/4ykh4nCyb3r/SiFT-Secure-File-Transfer-)
+Secure File Transfer (SiFT) v1.1 is a secure file transfer protocol I developed in Python for client-server communication over TCP/IP. Using standard libraries like `socket`, `os`, and `cryptography`, it supports commands (`pwd`, `lst`, `chd`, `mkd`, `del`, `upl`, `dnl`) with AES-GCM encryption and persistent storage. Key features include:
+
+- ✅ Execute file operations securely with cryptographic protection.
+- ✅ Authenticate users and establish keys via a Login Protocol.
+- ✅ Persistent command logging in text files.
+
+This project deepens my expertise in Python programming, network security, and protocol design, delivering a robust file transfer solution.
+
+### <i class="fas fa-server"></i> [CI/CD Pipeline for URL Shortener](https://github.com/4ykh4nCyb3r/url-shortener-devops)  
+I implemented a complete CI/CD pipeline for a containerized URL shortener application using modern DevOps practices with **AWS, Jenkins, Docker, Ansible, and Terraform**. The pipeline automates build, deployment, and infrastructure provisioning, ensuring scalable and repeatable delivery. Key features include:  
+
+- ✅ Provision cloud infrastructure with Terraform (EC2 instances, networking).  
+- ✅ Automate deployments via Ansible, including configuration management.  
+- ✅ Build, test, and push Docker images with Jenkins (Blue Ocean).  
+- ✅ Manage containerized services with Docker and docker-compose.  
+- ✅ Maintain modular and branch-separated workflow for app, infra, and automation.  
+
+This project strengthened my expertise in **DevOps, cloud deployment, automation, and containerization**, delivering a fully automated and reliable CI/CD workflow.
 
 ### <i class="fas fa-spider"></i> [XSS Web Scanner](https://github.com/4ykh4nCyb3r/XSS-Web-Scanner)
 XSS Web Scanner is a lightweight web crawler and Cross-Site Scripting (XSS) vulnerability scanner I developed in Python. Built using libraries like `requests` for HTTP handling, `BeautifulSoup` for HTML parsing, and `urllib.parse` for URL manipulation, it automates the process of identifying XSS vulnerabilities in web applications. The scanner recursively crawls a target website, extracts forms and URL parameters, and tests them with a basic XSS payload (`<script>alert('XSS')</script>`). Key features include:
@@ -56,14 +76,3 @@ Task Management System is a console-based application I developed in C++ to mana
 - ✅ Persistent storage using text files for data retention.
 
 This project enhanced my skills in C++ programming, file handling, and object-oriented design, focusing on efficient task management solutions.
-
-## <i class="fas fa-hourglass-half"></i> Ongoing
-
-### <i class="fas fa-file"></i> Simple File Transfer (SiFT) Protocol
-Simple File Transfer (SiFT) v1.0 is a secure file transfer protocol I developed in Python for client-server communication over TCP/IP. Using standard libraries like `socket`, `os`, and `cryptography`, it supports commands (`pwd`, `lst`, `chd`, `mkd`, `del`, `upl`, `dnl`) with AES-GCM encryption and persistent storage. Key features include:
-
-- ✅ Execute file operations securely with cryptographic protection.
-- ✅ Authenticate users and establish keys via a Login Protocol.
-- ✅ Persistent command logging in text files.
-
-This project deepens my expertise in Python programming, network security, and protocol design, delivering a robust file transfer solution.
