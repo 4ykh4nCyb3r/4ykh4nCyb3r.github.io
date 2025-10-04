@@ -8,7 +8,7 @@ permalink: /cv/certifications/
 - [OSCP](https://credentials.offsec.com/4bb2bbe7-0521-4dab-b756-0a450412448e#acc.ABUP1QnT)
 - [OSWP](https://credentials.offsec.com/84b34770-d51d-40d7-8b0d-234992258d18#acc.sWVNYJtX)
 
-### <i class="fa-solid fa-shield-halved"></i> Cyberwarfare Labs
+### <i class="fa-solid fa-laptop-code"></i> Cyberwarfare Labs
 - [CRTA](https://www.credential.net/7ed29e6d-8b54-49ef-a0d5-ee1f78f6cefb?username=aykhan)
 
 ### <i class="fas fa-laptop-code"></i> TryHackMe
