@@ -6,7 +6,7 @@ icon: fa fa-file-text
 order: 5
 ---
 ## 📄 Resume
-[View Resume](https://drive.google.com/file/d/1kQmvWvC0Z3bq-m9_f1GV2cIZ13r2SRS0/view?usp=sharing)
+[View Resume](https://drive.google.com/file/d/1XoNTBlDaOlmng36napR93wk41lZfXxqG/view?usp=sharing)
 
 ## 🛠️ Projects
 [View Projects](/cv/projects/)
