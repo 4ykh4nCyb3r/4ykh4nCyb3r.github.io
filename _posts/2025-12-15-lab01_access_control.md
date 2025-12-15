@@ -1,7 +1,7 @@
 ---
-title: Lab 01: Unprotected Admin Functionality
+title: "Lab 01: Unprotected Admin Functionality"
 date: 2025-12-15
-categories: [portswigger, accecc_control]
+categories: [portswigger, access_control]
 tags: [robots.txt, unprotected-admin-panel] 
 image: port.logo.png
 media_subpath: /assets/img/posts/2025-12-15-lab01_access_control/
