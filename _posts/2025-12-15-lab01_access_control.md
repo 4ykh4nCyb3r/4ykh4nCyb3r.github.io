@@ -9,9 +9,9 @@ media_subpath: /assets/img/posts/2025-12-15-lab01_access_control/
 
 ## 1. Executive Summary
 
-**Vulnerability:** Unprotected Admin Functionality (Broken Access Control).
-**Description:** The application relies on "Security by Obscurity" by hiding the administration panel's URL in `robots.txt` rather than enforcing server-side session checks.
-**Impact:** Any unauthenticated user who discovers the URL can access administrative functions, leading to full account takeover or data deletion.
+**Vulnerability:** Unprotected Admin Functionality (Broken Access Control).  
+**Description:** The application relies on "Security by Obscurity" by hiding the administration panel's URL in `robots.txt` rather than enforcing server-side session checks.  
+**Impact:** Any unauthenticated user who discovers the URL can access administrative functions, leading to full account takeover or data deletion.  
 
 ## 2. The Attack
 

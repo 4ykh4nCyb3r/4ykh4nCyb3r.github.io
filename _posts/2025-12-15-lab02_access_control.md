@@ -9,9 +9,9 @@ media_subpath: /assets/img/posts/2025-12-15-lab02_access_control/
 
 ## 1. Executive Summary
 
-**Vulnerability:** Unprotected Admin Functionality (Security by Obscurity).
-**Description:** The application attempts to secure the admin panel by using a long, random, unpredictable URL (e.g., `/admin-km2dj1`) instead of proper access controls. However, this URL is disclosed in the client-side JavaScript.
-**Impact:** Attackers can discover the hidden URL by inspecting the application's source code and gain full administrative access without credentials.
+**Vulnerability:** Unprotected Admin Functionality (Security by Obscurity).  
+**Description:** The application attempts to secure the admin panel by using a long, random, unpredictable URL (e.g., `/admin-km2dj1`) instead of proper access controls. However, this URL is disclosed in the client-side JavaScript.  
+**Impact:** Attackers can discover the hidden URL by inspecting the application's source code and gain full administrative access without credentials.  
 
 ## 2. The Attack
 
@@ -42,10 +42,10 @@ In the examples below, the developer has mapped the Controller to a specific, ob
 @Controller
 public class AdminController {
 
-    // The developer relies on the randomness of "yb556" to hide the page.
+    // The developer relies on the randomness of "km2dj1" to hide the page.
     // There are no security annotations here.
     // If you know the URL, you are the admin.
-    @GetMapping("/administrator-panel-yb556")
+    @GetMapping("/admin-km2dj1")
     public String adminPanel(Model model) {
         return "admin_dashboard";
     }
@@ -60,7 +60,7 @@ public class AdminController : Controller
     // The Route matches the secret URL found in the JS.
     // Missing [Authorize] attribute means the Identity of the caller is ignored.
     [HttpGet]
-    [Route("administrator-panel-yb556")]
+    [Route("admin-km2dj1")]
     public IActionResult Index()
     {
         return View();
@@ -70,7 +70,7 @@ public class AdminController : Controller
 
 ### Mock PR Comment
 
-The endpoint `/administrator-panel-yb556` lacks server-side authorization checks. Relying on an unpredictable URL string constitutes Security by Obscurity, which is insufficient as the URL is exposed in client-side assets. Implement role-based access control (RBAC) to verify that the requesting session belongs to an administrator.
+The endpoint `/admin-km2dj1` lacks server-side authorization checks. Relying on an unpredictable URL string constitutes Security by Obscurity, which is insufficient as the URL is exposed in client-side assets. Implement role-based access control (RBAC) to verify that the requesting session belongs to an administrator.
 
 ## 4. The Fix
 
