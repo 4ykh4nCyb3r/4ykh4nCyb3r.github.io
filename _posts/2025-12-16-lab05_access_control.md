@@ -138,7 +138,7 @@ if (originalUrl != null && TRUSTED_PROXIES.contains(remoteIp)) {
 }
 ```
 
-**What changed**: We added an if condition that checks request.getRemoteAddr(). This ensures that if a random hacker on the internet (IP 1.2.3.4) sends the header, it is ignored. It is only honored if it comes from our internal infrastructure.
+**What changed**: We added an `if` condition that checks `request.getRemoteAddr()`. This ensures that if a random hacker on the internet (IP 1.2.3.4) sends the header, it is ignored. It is only honored if it comes from our internal infrastructure.
 
 ### Secure C#
 
@@ -159,7 +159,7 @@ public void Configure(IApplicationBuilder app)
     app.UseForwardedHeaders(options); 
 }
 ```
-**What changed**: We replaced the manual "Header Reading" code with a standard configuration object (ForwardedHeadersOptions). We explicitly defined KnownNetworks (Safe IPs). The framework now handles the validation automatically, rejecting headers from untrusted sources.
+**What changed**: We replaced the manual "Header Reading" code with a standard configuration object (`ForwardedHeadersOptions`). We explicitly defined `KnownNetworks` (Safe IPs). The framework now handles the validation automatically, rejecting headers from untrusted sources.
 
 ## 5. Automation
 
