@@ -70,6 +70,12 @@ public class HeaderOverrideFilter extends OncePerRequestFilter {
     }
 }
 ```
+**Technical Flow & Syntax Explanation:**
+- `OncePerRequestFilter`: This is a standard Spring component that intercepts every single HTTP request before it reaches your Controllers (business logic).
+- `request.getHeader("X-Original-URL")`: The code explicitly looks for this specific header. If an attacker sends it, the variable `originalUrl` gets populated (e.g., with `/admin`).
+- `HttpServletRequestWrapper`: In Java, the Request object is read-only. To change the URL, the developer must "wrap" the original request in a new object and override the `getRequestURI()` method.
+- `chain.doFilter(wrapper, response)`: This is the critical moment. The filter passes the modified (wrapped) request to the next part of the filter chain.
+- **Result**: When the security check (Spring Security) runs later, it calls `getRequestURI()`. It sees `/admin` (from the header), but the WAF (which sat in front of this app) only saw `/` (from the actual URL line) and let it through.
 
 ### C# (ASP.NET Core Middleware)
 
@@ -98,6 +104,11 @@ public class UrlOverrideMiddleware
     }
 }
 ```
+**Technical Flow & Syntax Explanation:**
+- **Middleware Pipeline** (`Invoke` / `_next`): ASP.NET Core handles requests like a chain of handlers. `Invoke` is the method called when a request hits this middleware. `_next(context)` passes the baton to the next handler.
+- `context.Request.Headers["X-Original-URL"]`: The code blindly reads the header value provided by the client.
+- `context.Request.Path = originalUrl`: This is the "setter" that rewrites reality. The `Request.Path` property determines which Controller Action (method) will be executed.
+- **The Bypass**: If this Middleware runs before the Authorization Middleware, the request path is changed to `/admin` internally. However, because the external request line was /, the external firewall allowed it.
 
 ### Mock PR Comment
 
@@ -127,6 +138,8 @@ if (originalUrl != null && TRUSTED_PROXIES.contains(remoteIp)) {
 }
 ```
 
+**What changed**: We added an if condition that checks request.getRemoteAddr(). This ensures that if a random hacker on the internet (IP 1.2.3.4) sends the header, it is ignored. It is only honored if it comes from our internal infrastructure.
+
 ### Secure C#
 
 In ASP.NET Core, ensure the `ForwardedHeadersMiddleware` is configured strictly, rather than writing custom middleware that blindly accepts headers.
@@ -146,6 +159,7 @@ public void Configure(IApplicationBuilder app)
     app.UseForwardedHeaders(options); 
 }
 ```
+**What changed**: We replaced the manual "Header Reading" code with a standard configuration object (ForwardedHeadersOptions). We explicitly defined KnownNetworks (Safe IPs). The framework now handles the validation automatically, rejecting headers from untrusted sources.
 
 ## 5. Automation
 
