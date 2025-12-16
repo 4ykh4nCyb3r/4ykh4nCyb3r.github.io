@@ -210,7 +210,7 @@ exploit_mass_assignment("https://YOUR-LAB.web-security-academy.net", "YOUR_SESSI
 
 *A rule to detect when Controllers use full Entity classes as input arguments instead of DTOs/Requests.*
 
-The Logic
+**The Logic**
 
 We want to flag any method in a Controller (indicated by `@RestController` or `@Controller`) that accepts an argument annotated with `@RequestBody` where the type is a known Entity or Domain class (like `User`, `Account`). *Note: In a real environment, you would customize the `pattern-not` or allow-lists to exclude classes ending in `DTO` or `Request`.*
 
