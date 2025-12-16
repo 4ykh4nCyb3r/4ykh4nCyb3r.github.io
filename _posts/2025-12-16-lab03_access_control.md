@@ -168,3 +168,79 @@ def exploit_cookie_tampering(url, login_path, target_path):
 # Usage
 # exploit_cookie_tampering("https://YOUR-LAB-ID.web-security-academy.net", "/login", "/admin")
 ```
+## 6. Static Analysis (Semgrep)
+This section provides a custom Semgrep rule to detect this specific vulnerability pattern (Trusting Cookie Values) in the codebase.
+
+### Java (Spring Boot)
+
+**The Logic**
+We want to find code that iterates through cookies and explicitly checks if a cookie's value equals a specific string (like "true" or "admin"). This usually indicates the application is trusting client-side data for logic decisions.
+
+The Rule (`rules.yaml`)
+
+```yaml
+rules:
+  - id: insecure-cookie-logic
+    languages: [java]
+    message: |
+      Detected logic that trusts a Cookie value directly. 
+      Cookies can be tampered with by the client. 
+      Do not use cookie values for authorization (e.g., checking if cookie == "true").
+    severity: WARNING
+    patterns:
+      # 1. Look inside a loop that iterates over cookies
+      - pattern-inside: |
+          for (Cookie $COOKIE : $REQ.getCookies()) {
+            ...
+          }
+      # 2. Find any check where we compare the cookie value to a string literal
+      - pattern-either:
+          - pattern: $COOKIE.getValue().equals("...")
+          - pattern: '"...".equals($COOKIE.getValue())'
+
+```
+**Syntax Explanation**
+
+- `$REQ`, `$COOKIE`: These are **Metavariables**. They start with `$`. They act like wildcards that capture whatever variable name the developer actually used (e.g., it matches request, req, httpReq).
+- `pattern-inside`: This tells Semgrep to only look for the bug if we are currently inside a specific block of code (in this case, a for loop iterating over cookies).
+- `...` (Ellipsis): This is the "everything else" operator. It matches any sequence of arguments or statements.
+ - `equals("...")` matches `equals("true")`, `equals("admin")`, etc.
+- `pattern-either`: Since Java allows `var.equals("str")` AND `"str".equals(var)`, we look for both variations.
+  
+### C# (ASP.NET Core)
+
+**The C# Logic**
+In ASP.NET Core, developers typically access cookies via Request.Cookies["Key"]. We want to flag any code that compares a specific cookie's value against a string literal (like "true") to make a decision.
+
+The Rule (`rules.yaml`)
+
+```yaml
+rules:
+  - id: csharp-insecure-cookie-logic
+    languages: [csharp]
+    message: |
+      Detected logic that trusts a Cookie value directly. 
+      Cookies can be tampered with by the client. 
+      Use server-side Session or Identity (Claims) instead.
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          # Match: Request.Cookies["Admin"] == "true"
+          - pattern: $REQ.Cookies[...] == "..."
+          # Match: "true" == Request.Cookies["Admin"]
+          - pattern: '"..." == $REQ.Cookies[...]'
+          # Match: Request.Cookies["Admin"].Equals("true")
+          - pattern: $REQ.Cookies[...].Equals("...")
+```
+
+**Syntax Explanation**
+
+- `$REQ.Cookies[...]`:
+  - `$REQ`: Matches the request object (usually `Request` or `HttpContext.Request`).
+
+- `[...]`: The ellipsis inside the brackets acts as a wildcard for the index. It matches any string key used to look up the cookie (e.g., "Admin", "Role").
+
+- `== "..."`:
+  - Matches a comparison to any string literal. This ensures we catch hardcoded checks like == "true" or == "admin".
+- `pattern-either`:
+  - C# developers might write cookie == "true" or "true" == cookie. We catch both styles.
