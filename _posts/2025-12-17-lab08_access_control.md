@@ -9,8 +9,8 @@ media_subpath: /assets/img/posts/2025-12-17-lab07_access_control/
 
 ## 1. Executive Summary
 
-**Vulnerability:** Insecure Direct Object Reference (IDOR) with GUIDs.
-**Description:** The application uses long, complex GUIDs (e.g., `59b3...`) to identify users instead of sequential integers. While this prevents simple enumeration attacks, the application exposes these GUIDs in public areas (like blog author links).
+**Vulnerability:** Insecure Direct Object Reference (IDOR) with GUIDs.  
+**Description:** The application uses long, complex GUIDs (e.g., `59b3...`) to identify users instead of sequential integers. While this prevents simple enumeration attacks, the application exposes these GUIDs in public areas (like blog author links).  
 **Impact:** Horizontal Privilege Escalation. Once an attacker finds a victim's GUID, they can substitute it into the "My Account" parameter to view sensitive data, proving that obfuscation is not a substitute for authorization.
 
 ## 2. The Attack
