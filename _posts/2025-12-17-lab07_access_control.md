@@ -1,5 +1,5 @@
 ---
-title: "Lab 07 - User ID controlled by request parameter"
+title: "Lab 07: User ID controlled by request parameter"
 date: 2025-12-17
 categories: [portswigger, access_control]
 tags: [IDOR] 
