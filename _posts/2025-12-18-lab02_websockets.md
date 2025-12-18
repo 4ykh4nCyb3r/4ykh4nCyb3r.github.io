@@ -25,7 +25,9 @@ media_subpath: /assets/img/posts/2025-12-17-lab11_access_control/
     - I went to the **WebSocket Handshake** request (the initial HTTP `GET` request with the `Upgrade: websocket` header).
     - I added the header `X-Forwarded-For: 1.1.1.1`.
     - This tricked the server into thinking the request came from a new, unbanned IP.
+    - But the message is denied because of defense that detected XSS payload
 3. **Filter Evasion:**
+    - Chaning the IP `X-Forwarded-For: 1.1.1.2`
     - Knowing the filter was "aggressive," I attempted to bypass its signature matching.
     - I used **case variation** for the event handler (`oNeRrOr`) and **backticks** instead of parentheses for the `alert` function.
     - *Payload:* `<img src=1 oNeRrOr=alert`1`>`
