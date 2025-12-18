@@ -169,6 +169,7 @@ if (context.Request.Headers["Origin"] != "https://online-shop.com")
 
 ## 5. Automation
 
+{% raw %}
 ```python
 #!/usr/bin/env python3
 import argparse
@@ -203,6 +204,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endraw %}
 
 ## 6. Static Analysis (Semgrep)
 
