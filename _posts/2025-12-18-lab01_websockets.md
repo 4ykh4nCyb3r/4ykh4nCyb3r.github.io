@@ -4,7 +4,7 @@ date: 2025-12-18
 categories: [portswigger, websockets]
 tags: [websocket] 
 image: portswigger.png
-media_subpath: /assets/img/posts/2025-12-18-lab11_access_control/
+media_subpath: /assets/img/posts/2025-12-17-lab11_access_control/
 --- 
 
 
