@@ -121,7 +121,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 ### Secure C# (ASP.NET Core Attribute)
 
-```java
+```csharp
 [Authorize(Roles = "Admin")] // SECURE: Applied at the Class/Controller level
 public class AdminRolesController : Controller
 {

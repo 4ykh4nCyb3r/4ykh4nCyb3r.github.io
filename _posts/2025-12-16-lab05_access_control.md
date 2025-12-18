@@ -108,7 +108,7 @@ public class UrlOverrideMiddleware
 - **Middleware Pipeline** (`Invoke` / `_next`): ASP.NET Core handles requests like a chain of handlers. `Invoke` is the method called when a request hits this middleware. `_next(context)` passes the baton to the next handler.
 - `context.Request.Headers["X-Original-URL"]`: The code blindly reads the header value provided by the client.
 - `context.Request.Path = originalUrl`: This is the "setter" that rewrites reality. The `Request.Path` property determines which Controller Action (method) will be executed.
-- **The Bypass**: If this Middleware runs before the Authorization Middleware, the request path is changed to `/admin` internally. However, because the external request line was /, the external firewall allowed it.
+- **The Bypass**: If this Middleware runs before the Authorization Middleware, the request path is changed to `/admin` internally. However, because the external request line was `/`, the external firewall allowed it.
 
 ### Mock PR Comment
 
