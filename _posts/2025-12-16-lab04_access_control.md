@@ -115,7 +115,7 @@ public class ProfileController : ControllerBase
 
 ### Mock PR Comment
 
-I noticed that the `updateProfile` endpoint accepts the full `User` entity as a request body. This enables "Mass Assignment," allowing users to potentially overwrite sensitive fields like `roleId` or `balance` if they include them in the JSON payload.
+I noticed that the `updateProfile` endpoint accepts the full `User` entity as a request body. This enables `"Mass Assignment"`, allowing users to potentially overwrite sensitive fields like `roleId` or `balance` if they include them in the JSON payload.
 
 Please introduce a **DTO (Data Transfer Object)** (e.g., `UpdateEmailRequest`) that contains *only* the fields we want to allow users to change (just `email`), and map that DTO to the entity manually.
 
@@ -126,7 +126,7 @@ We must never trust the client to send only the data we expect. We should create
 
 ### Secure Java (Using DTO)
 
-```csharp
+```java
 // 1. Create a specific class for this action
 public class EmailUpdateDTO {
     // Only email is here. No roleId.
