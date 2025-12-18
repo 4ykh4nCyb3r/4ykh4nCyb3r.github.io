@@ -9,7 +9,8 @@ media_subpath: /assets/img/posts/2025-12-16-lab04_access_control/
 
 ## 1. Executive Summary
 
-**Vulnerability:** Mass Assignment (also known as Over-Posting).**Description:** The application framework automatically binds (maps) incoming JSON data to internal object fields. Because the developer did not explicitly restrict which fields can be updated, an attacker can inject sensitive fields—like `roleid`—that were not intended to be exposed in the "Update Profile" form.
+**Vulnerability:** Mass Assignment (also known as Over-Posting).  
+**Description:** The application framework automatically binds (maps) incoming JSON data to internal object fields. Because the developer did not explicitly restrict which fields can be updated, an attacker can inject sensitive fields—like `roleid`—that were not intended to be exposed in the "Update Profile" form.
 
 ## 2. The Attack
 
@@ -72,12 +73,15 @@ public class ProfileController {
     public User updateProfile(@RequestBody User updatedUser, HttpSession session) {
         User currentUser = userRepository.findBySession(session);
         
-        // DANGEROUS: Some frameworks merge these automatically, 
-        // or the developer copies fields blindly.
+        // DANGEROUS: Some frameworks merge these automatically, or the developer copies fields blindly.
         currentUser.setEmail(updatedUser.getEmail());
         
         // If the framework did the binding on 'currentUser' directly, 
+        // public User updateProfile(@ModelAttribute User currentUser)
+        
         // or if a merger tool was used, roleId is now overwritten.
+        BeanUtils.copyProperties(updatedUser, currentUser);
+
         return userRepository.save(currentUser);
     }
 }

@@ -9,8 +9,8 @@ media_subpath: /assets/img/posts/2025-12-15-lab03_access_control/
 
 ## 1. Executive Summary
 
-**Vulnerability:** Broken Access Control (Parameter Tampering).
-**Description:** The application determines the user's privilege level based on a cleartext HTTP cookie (`Admin=false`).
+**Vulnerability:** Broken Access Control (Parameter Tampering).  
+**Description:** The application determines the user's privilege level based on a cleartext HTTP cookie (`Admin=false`).  
 
 Because cookies are stored on the client side, users can modify this value to escalate their privileges.
 
