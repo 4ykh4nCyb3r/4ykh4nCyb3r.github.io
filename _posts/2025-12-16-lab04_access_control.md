@@ -77,7 +77,7 @@ public class ProfileController {
         currentUser.setEmail(updatedUser.getEmail());
         
         // If the framework did the binding on 'currentUser' directly, 
-        // public User updateProfile(@ModelAttribute User currentUser)
+//      public User updateProfile(@ModelAttribute User currentUser)
         
         // or if a merger tool was used, roleId is now overwritten.
         BeanUtils.copyProperties(updatedUser, currentUser);
@@ -102,6 +102,7 @@ public class ProfileController : ControllerBase
         var currentUser = _userService.GetCurrentUser();
 
         // If the code uses a library like AutoMapper without configuration,
+//      _mapper.Map(userUpdates, currentUser);
         // or simply blindly saves 'userUpdates', the RoleId changes.
         currentUser.Email = userUpdates.Email;
         currentUser.RoleId = userUpdates.RoleId; // Implicitly bound!
