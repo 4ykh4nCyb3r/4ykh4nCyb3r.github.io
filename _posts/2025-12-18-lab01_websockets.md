@@ -10,8 +10,8 @@ media_subpath: /assets/img/posts/2025-12-17-lab11_access_control/
 
 ## 1. Executive Summary
 
-**Vulnerability:** Client-Side Bypassed Cross-Site Scripting (XSS) via WebSockets.
-**Description:** The application implements a live chat feature using the WebSocket protocol. While the client-side JavaScript performs HTML encoding on user input before transmission, the backend fails to validate or re-encode the data before broadcasting it to other users (the support agent).
+**Vulnerability:** Client-Side Bypassed Cross-Site Scripting (XSS) via WebSockets.  
+**Description:** The application implements a live chat feature using the WebSocket protocol. While the client-side JavaScript performs HTML encoding on user input before transmission, the backend fails to validate or re-encode the data before broadcasting it to other users (the support agent).  
 **Impact:** An attacker can inject malicious scripts that execute in the context of the support agent's browser, leading to session hijacking, sensitive data theft, or unauthorized actions on the agent's behalf.
 
 ## 2. The Attack
@@ -148,7 +148,9 @@ if __name__ == "__main__":
 
 ## 6. Static Analysis (Semgrep)
 
-**The Logic:We are identifying instances where a string derived from a WebSocket message is passed to a broadcast/send function without being passed through a known sanitizer like `htmlEscape` or `Encode`.**
+**The Logic:**
+
+We are identifying instances where a string derived from a WebSocket message is passed to a broadcast/send function without being passed through a known sanitizer like `htmlEscape` or `Encode`.
 
 ### Java Rule
 
