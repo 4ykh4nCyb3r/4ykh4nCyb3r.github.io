@@ -48,7 +48,7 @@ media_subpath: /assets/img/posts/2025-12-19-lab04_authentication/
     
     ![image.png](image.png)
 
-> The attack with ffuf slower than with Python automation before.
+> The attack with ffuf slower than with Python automation.
 {: .prompt-warning}
     
 
