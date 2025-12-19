@@ -38,19 +38,18 @@ media_subpath: /assets/img/posts/2025-12-19-lab04_authentication/
     - I ran `ffuf` in **Pitchfork** mode (pairing line 1 of user list with line 1 of pass list).
     - **Crucial:** I set threads to `t 1` to ensure requests were sent sequentially. If sent in parallel, multiple failures might hit the server before the "reset" login arrives, triggering the ban.
     - **Command:**
-> **Slow !**
-{: .prompt-warning}
-        
         ```bash
         ffuf -X POST -w ./output_pass.txt:FUZZ -w ./mixed_users.txt:FUZ2Z \
           -u https://LAB-ID.web-security-academy.net/login \
           -d 'username=FUZ2Z&password=FUZZ' \
           -fr "Incorrect password" -t 1
         ```
-        
 5. **Result:** The attack ran indefinitely without locking out. Eventually, one of the requests to `carlos` succeeded (status 302 or missing error message).
     
     ![image.png](image.png)
+
+> The attack with ffuf slower than with Python automation before.
+{: .prompt-warning}
     
 
 ## 3. Code Review
