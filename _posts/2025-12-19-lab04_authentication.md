@@ -34,19 +34,12 @@ media_subpath: /assets/img/posts/2025-12-19-lab04_authentication/
         wiener
         ...
         ```
-        
-    - I created a **mixed password list** (`output_pass.txt`) that pairs candidate passwords for Carlos with the correct password (`peter`) for Wiener.
-        
-        ```bash
-        sed 'i\peter' candidate_passwords.txt > output_pass.txt
-        ```
-        
 4. **Exploitation:**
     - I ran `ffuf` in **Pitchfork** mode (pairing line 1 of user list with line 1 of pass list).
     - **Crucial:** I set threads to `t 1` to ensure requests were sent sequentially. If sent in parallel, multiple failures might hit the server before the "reset" login arrives, triggering the ban.
     - **Command:**
-    > Slow !
-    {: .prompt-warning }
+> **Slow !**
+{: .prompt-warning}
         
         ```bash
         ffuf -X POST -w ./output_pass.txt:FUZZ -w ./mixed_users.txt:FUZ2Z \
