@@ -80,7 +80,7 @@ To ensure success, I transitioned to a `GET`-based payload using the lab's own *
 The flaw exists during the **HTTP Upgrade** phase. The server checks for a valid session cookie but does not verify the `Origin` header or require a CSRF token.
 
 - **The Flaw:** The WebSocket protocol does not have built-in CSRF protection. If the handshake relies on cookies, it is inherently vulnerable to cross-site requests.
-- **The Reality:** Since browsers automatically attach cookies to cross-site requests, the server cannot distinguish between a request intended by the user and one forced by a malicious script.
+- **The Reality:** Since browser automatically attaches cookie (`SameSite=None`) to cross-site requests, the server cannot distinguish between a request intended by the user and one forced by a malicious script.
 
 ### Java (Spring Boot / Handshake Interceptor)
 
@@ -130,14 +130,14 @@ app.Use(async (context, next) =>
 
 ### Mock PR Comment
 
-The WebSocket handshake at `/chat` is vulnerable to Cross-Site WebSocket Hijacking. It relies on session cookies but does not validate the `Origin` header or implement CSRF tokens.
+The WebSocket handshake at `/chat` is vulnerable to `Cross-Site WebSocket Hijacking (CSWSH)`. It relies on session cookies but does not validate the `Origin` header or implement CSRF tokens.
 
 Please restrict the `AllowedOrigins` to our specific domain and implement a CSRF token check during the initial HTTP upgrade request to ensure the connection is being initiated from our own frontend.
 
 ## 4. The Fix
 
 **Explanation of the Fix:**
-The primary defense is **Origin Validation**. We must check the `Origin` header on the server and only allow connections from our trusted domain. Additionally, using **SameSite=Strict** cookies prevents the browser from sending session cookies during cross-site handshakes.
+The primary defense is **Origin Validation**. We must check the `Origin` header on the server and only allow connections from our trusted domain. Additionally, using **SameSite=Lax** cookies prevents the browser from sending session cookies during cross-site handshakes.
 
 ### Secure Java (Spring Security)
 
