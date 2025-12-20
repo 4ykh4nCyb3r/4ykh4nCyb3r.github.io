@@ -91,14 +91,14 @@ public String login(@RequestParam String username, @RequestParam String password
             return "redirect:/dashboard";
         } else {
             // Leak: We only reach here if the password was CORRECT.
-            model.addAttribute("error", "Your account is locked.");
+            model.addAttribute("error", "You have made too many incorrect login attempts. Please try again in 1 minute(s).");
             return "login";
         }
     }
 
     // Wrong Password logic
     user.incrementFailedAttempts();
-    model.addAttribute("error", "Invalid username or password");
+    model.addAttribute("error", "Invalid username or password.");
     return "login";
 }
 ```
@@ -107,7 +107,7 @@ public String login(@RequestParam String username, @RequestParam String password
 
 - **`passwordEncoder.matches(...)`**: This verifies the credentials.
 - **The Branch**: If the password is wrong, the code jumps to the bottom block. If the password is right, it enters the `if` block.
-- **The Reveal**: The attacker sends a password. If they get "Invalid username", they know it's wrong. If they get "Your account is locked", they know the password was **right**, even though they can't log in yet.
+- **The Reveal**: The attacker sends a password. If they get "Invalid username", they know it's wrong. If they get "You have made too many incorrect login attempts...", they know the password was **right**, even though they can't log in yet.
 
 ### C# (ASP.NET Core)
 
@@ -125,7 +125,7 @@ public async Task<IActionResult> Login(LoginModel model)
         if (await _userManager.IsLockedOutAsync(user))
         {
             // Leak: Reaching this line confirms the password is correct.
-            return BadRequest("User account is locked");
+            return BadRequest("You have made too many incorrect login attempts. Please try again in 1 minute(s).");
         }
         return Ok("Welcome");
     }
