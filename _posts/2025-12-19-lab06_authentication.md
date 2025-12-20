@@ -262,6 +262,22 @@ if __name__ == "__main__":
 
 ### Java Rule
 
+```yaml
+rules:
+  - id: java-json-password-list-check
+    languages: [java]
+    message: |
+      The code appears to check if the password field is a List/Collection. 
+      This suggests it supports batch password submission, which bypasses rate limiting. 
+      Enforce a single String type.
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: if ($PASS instanceof List) { ... }
+          - pattern: if ($PASS instanceof ArrayList) { ... }
+          - pattern: if ($PASS instanceof Collection) { ... }
+```
+
 **Technical Flow & Syntax Explanation:**
 
 - **`instanceof List`**: This is the smoking gun. There is almost never a legitimate reason to accept a list of passwords for a single login attempt.
