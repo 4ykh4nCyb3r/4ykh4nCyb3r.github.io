@@ -1,6 +1,6 @@
 ---
 title: "Lab 07: 2FA simple bypass"
-date: 2025-12-19
+date: 2025-12-20
 categories: [portswigger, authentication] 
 image: portswigger.png
 media_subpath: /assets/img/posts/2025-12-19-lab05_authentication/
