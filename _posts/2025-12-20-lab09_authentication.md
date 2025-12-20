@@ -26,7 +26,7 @@ media_subpath: /assets/img/posts/2025-12-20-lab09_authentication/
         ![image.png](image.png)
         
     - The first part is obviously the username. The second part looked like a hash.
-    - I dehashed my password (`peter`) using Crackstation https://crackstation.net/: `51dc30ddc473d43a6011e9ebba6ca770`.
+    - I dehashed my password (`peter`) using [Crackstation](https://crackstation.net/): `51dc30ddc473d43a6011e9ebba6ca770`.
         
         ![image.png](image%201.png)
         
