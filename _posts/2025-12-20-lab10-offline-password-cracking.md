@@ -4,7 +4,7 @@ date: 2025-12-20
 categories: [portswigger, authentication] 
 image: portswigger.png
 media_subpath: /assets/img/posts/2025-12-20-lab10_authentication/
----  
+---
 
 ## 1. Executive Summary
 
