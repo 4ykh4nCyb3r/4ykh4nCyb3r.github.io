@@ -2,6 +2,7 @@
 title: "Lab 2: Finding and exploiting an unused API endpoint"
 date: 2025-12-23
 categories: [portswigger, api_testing] 
+tags: [BOLA, mass_assignment]
 image: portswigger.png
 media_subpath: /assets/img/posts/2025-12-23-lab2_api_testing/
 ---
@@ -228,27 +229,44 @@ if __name__ == "__main__":
 
 ```yaml
 rules:
-  - id: java-sensitive-patch-no-auth
+  - id: java-sensitive-price-update-no-auth
     languages: [java]
-    message: |
-      Detected a PATCH/PUT endpoint modifying 'price' or 'cost' without strict role checks.
-      Verify if this endpoint should be public.
+    message: "PATCH/PUT endpoint modifying price/cost without strict authorization"
     severity: WARNING
     patterns:
+      # Find PATCH or PUT methods
       - pattern-either:
           - pattern: |
               @PatchMapping(...)
-              public $RET $METHOD(..., $BODY) { ... }
+              public $RET $METHOD(...) { ... }
           - pattern: |
               @PutMapping(...)
-              public $RET $METHOD(..., $BODY) { ... }
-      - pattern-inside: |
-          // Heuristic: Method logic mentions "price"
-          ...
-          $X.updatePrice(...);
-          ...
+              public $RET $METHOD(...) { ... }
+      
+      # That modify price/cost (either field assignment or method call)
+      - pattern-either:
+          - pattern: |
+              $ENTITY.setPrice($VALUE);
+          - pattern: |
+              $ENTITY.setCost($VALUE);
+          - pattern: |
+              $ENTITY.price = $VALUE;
+          - pattern: |
+              $ENTITY.cost = $VALUE;
+          - pattern: |
+              $SERVICE.updatePrice(...);
+          - pattern: |
+              $SERVICE.updateCost(...);
+      
+      # Without proper authorization
       - pattern-not: |
-          @PreAuthorize(...)
+          @PreAuthorize("hasRole('ADMIN')")
+          public $RET $METHOD(...) { ... }
+      - pattern-not: |
+          @PreAuthorize("hasRole('MANAGER')")
+          public $RET $METHOD(...) { ... }
+      - pattern-not: |
+          @PreAuthorize("hasAuthority('UPDATE_PRICE')")
           public $RET $METHOD(...) { ... }
 ```
 
@@ -262,21 +280,17 @@ rules:
 
 ```yaml
 rules:
-  - id: csharp-sensitive-patch-no-auth
+  - id: csharp-patch-no-auth
     languages: [csharp]
-    message: "Sensitive PATCH endpoint detected without Role restrictions."
+    message: "PATCH endpoint without any authorization."
     severity: WARNING
     patterns:
       - pattern: |
           [HttpPatch]
           public $RET $METHOD(...) { ... }
-      - pattern-inside: |
-          // Look for price assignment
-          ...
-          $ENTITY.Price = ...;
-          ...
       - pattern-not: |
-          [Authorize(Roles = ...)]
+          [HttpPatch]
+          [Authorize(...)]
           public $RET $METHOD(...) { ... }
 ```
 
