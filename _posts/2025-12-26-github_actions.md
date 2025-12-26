@@ -3,7 +3,7 @@ title: "The Foundation of DevSecOps: Building a Verifiable Pipeline with GitHub 
 date: 2025-12-26
 categories: [softeng] 
 tags: [github_actions]
-image: github_actions.png
+image: github_actions-min.png
 media_subpath: /assets/img/posts/2025-12-26-github_actions/
 ---
 
@@ -66,8 +66,7 @@ jobs:
   build:
     name: Build & Verify
     strategy:
-	    # don't cancel workflow because one job failed
-      fail-fast: false
+      fail-fast: false # don't cancel workflow because one job failed
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
