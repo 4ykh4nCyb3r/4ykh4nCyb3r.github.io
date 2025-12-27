@@ -3,8 +3,8 @@ title: "Textual Modeling for Security Pros"
 date: 2025-12-27
 categories: [softeng] 
 tags: [MDE, SoftwareArchitecture, AppSec, Langium, Engineering, DevSecOps]
-image: graph_modeling-min.png
-media_subpath: /assets/img/posts/2025-12-27-graph_modeling/
+image: text_modelin.jpeg
+media_subpath: /assets/img/posts/2025-12-27-textual_modeling/
 ---
 
 If you’ve followed my posts on penetration testing and app sec, you know the struggle of architectural diagrams. You draw a "Secure Network" on a whiteboard or in [Visio](https://www.microsoft.com/en-us/microsoft-365/visio): a Firewall here, a Database there, and a line showing traffic flow.
