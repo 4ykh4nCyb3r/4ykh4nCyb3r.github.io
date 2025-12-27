@@ -2,7 +2,7 @@
 title: "The Foundation of DevSecOps: Building a Verifiable Pipeline with GitHub Actions"
 date: 2025-12-26
 categories: [softeng] 
-tags: [github_actions]
+tags: [github_actions, CI/CD, DevSecOps]
 image: github_action.jpeg
 media_subpath: /assets/img/posts/2025-12-26-github_actions/
 ---
