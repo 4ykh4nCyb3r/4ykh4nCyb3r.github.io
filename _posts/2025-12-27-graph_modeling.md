@@ -3,7 +3,7 @@ title: "Graph Modeling & Logic Solvers"
 date: 2025-12-27
 categories: [softeng] 
 tags: [MDE, SoftwareArchitecture, AppSec, Refinery, Engineering]
-image: graph_modeling-min.png
+image: graph_modelin.jpeg
 media_subpath: /assets/img/posts/2025-12-27-graph_modeling/
 ---
 
