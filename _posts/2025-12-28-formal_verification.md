@@ -25,8 +25,8 @@ When you run code (dynamic analysis), you are observing one specific path throug
 
 We translate programming constructs into logical formulas:
 
-- `x = y + 5;` becomes the mathematical fact: $x = y+5$
-- `if (x > 10) { ... }` becomes a logical implication: $x>10 ==> ...$
+- `x = y + 5;` becomes the mathematical fact: `x = y+5`
+- `if (x > 10) { ... }` becomes a logical implication: `x>10 ==> ...`
 
 Once your program is converted into a giant pile of math equations, we can use powerful engines to ask questions about it.
 
