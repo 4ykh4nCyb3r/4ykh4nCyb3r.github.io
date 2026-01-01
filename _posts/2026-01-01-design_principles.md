@@ -3,7 +3,7 @@ title: "Object-Oriented Design Principles"
 date: 2026-01-01
 categories: [softeng, OO Software Design] 
 tags: [SOLID, OOP, design_patterns]
-image: oo_design_principle
+image: oo_design_principle.jpeg
 media_subpath: /assets/img/posts/2026-01-01-design_principles/
 ---
 
