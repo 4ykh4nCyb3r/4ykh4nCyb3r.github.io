@@ -1,7 +1,7 @@
 ---
 title: "Hacking Code with Pure Math - Formal Verification"
 date: 2025-12-28
-categories: [softeng] 
+categories: [softeng, Automated Software Engineering] 
 tags: [AppSec, formal_verification, SMT, SAT, Z3, Engineering, DevSecOps]
 image: formal_ver.jpeg
 media_subpath: /assets/img/posts/2025-12-28-formal_verification/
