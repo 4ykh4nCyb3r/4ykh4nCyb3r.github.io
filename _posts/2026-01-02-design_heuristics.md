@@ -3,7 +3,7 @@ title: "Object-Oriented Design Heuristics"
 date: 2026-01-02
 categories: [softeng, OO Software Design] 
 tags: [SOLID, OOP, design_heuristics, coupling, cohesion]
-image: oo_design_heuristic.jpeg
+image: design_heuristic.jpeg
 media_subpath: /assets/img/posts/2026-01-02-design_heuristics/
 --- 
 
