@@ -171,3 +171,7 @@ wallet.Debit(amount); // The wallet manages its own state logic
 ## Summary
 
 The difference between a junior and a senior developer is often the ability to spot where these principles are violated *before* the code is written. Whether it's adhering to **SOLID** to ensure classes are manageable or following **ADP** to ensure your architecture doesn't become a tangled web, these principles are your toolkit for longevity.
+
+---
+
+**Source Acknowledgment:***This post is based on my personal notes and interpretation of the "Object-Oriented Design Principles" lecture materials by Dr. Balázs Simon (BME, IIT).*

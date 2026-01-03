@@ -92,4 +92,4 @@ Writing clean code is about reducing the cognitive load on the reader. By using 
 
 ---
 
-**Source Acknowledgment:***This post is based on my personal notes and interpretation of the "Clean Object-Oriented Design" lecture materials by Dr. Balázs Simon (BME, IIT).*
+**Source Acknowledgment:***This post is based on my personal notes and interpretation of the "Object-Oriented Design Clean Code" lecture materials by Dr. Balázs Simon (BME, IIT).*

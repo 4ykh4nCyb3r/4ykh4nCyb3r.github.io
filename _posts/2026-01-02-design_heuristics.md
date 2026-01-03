@@ -145,3 +145,7 @@ Robust design must enforce system constraints effectively.
 ## Conclusion
 
 These heuristics provide a framework for navigating the complexities of software architecture. While they are not absolute laws, adhering to principles such as **Single Responsibility**, **Containment over Inheritance**, and **Polymorphism** typically yields systems that are more modular, testable, and maintainable. The goal is to make informed trade-offs that best suit the specific requirements of the application.
+
+---
+
+**Source Acknowledgment:***This post is based on my personal notes and interpretation of the "Object-Oriented Design Heuristics" lecture materials by Dr. Balázs Simon (BME, IIT).*

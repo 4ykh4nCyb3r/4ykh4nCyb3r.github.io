@@ -164,3 +164,7 @@ Refactoring is powerful, but it carries risk. The source material outlines criti
 ### Summary
 
 Refactoring improves design, helps find bugs, and actually speeds up programming in the long run. By identifying these smells—from the "Bloaters" like Long Method to the "Couplers" like Feature Envy—you can actively pay down technical debt and keep your software healthy.
+
+---
+
+**Source Acknowledgment:***This post is based on my personal notes and interpretation of the "Object-Oriented Design - Refactoring" lecture materials by Dr. Balázs Simon (BME, IIT).*
