@@ -213,4 +213,4 @@ Building distributed, concurrent systems requires a shift in mental models. We m
 
 ---
 
-This blog post is based on my interpretation of "Concurrent and Distributed Patterns" educational materials by Dr. Balázs Simon (BME, IIT).
+**Source Acknowledgment:**: *This blog post is based on my interpretation of "Concurrent and Distributed Patterns" educational materials by Dr. Balázs Simon (BME, IIT).*
