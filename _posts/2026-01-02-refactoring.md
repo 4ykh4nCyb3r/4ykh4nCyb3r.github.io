@@ -89,6 +89,13 @@ A class that contains only fields and getter/setter methods (dumb data holders) 
 
 **Refactoring Strategy:**Look for where the data is being used (likely in "Feature Envy" methods) and **Move Method** into the **Data Class** so it gains real responsibility.
 
+### Refused Bequest
+This occurs when a subclass inherits methods or data from a parent class but only uses a fraction of them. It suggests the hierarchy is wrong (the "Child" isn't truly a version of the "Parent"). A common symptom is a subclass overriding a method just to make it throw a `NotImplementedException`. 
+
+**Refactoring Strategy:**
+- If the inheritance makes sense but the parent has too much specific logic: Push Down Method or Push Down Field to move the unused parts to a sibling class.
+- If the subclass and parent are entirely different concepts (e.g., a `Stack` inheriting from `List` just to reuse code): Replace Inheritance with Delegation. Remove the inheritance link and give the subclass a field that holds the "Parent" object instead.
+
 ---
 
 ## 3. The Couplers
