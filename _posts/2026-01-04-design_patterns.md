@@ -154,6 +154,12 @@ DI is a technique where an object receives its dependencies from an external sou
 
 - **Scenario:** A `PaymentService` that requires a `FraudDetector`. Instead of `new FraudDetector()` inside the service, the detector is passed via the constructor.
 - **Benefit:** This drastically improves testability, as we can inject a mock `FraudDetector` during unit tests.
+
+**Advanced Variant: Handling Circular Dependencies**
+While `constructor injection` is the standard approach, it has a major limitation: it cannot handle **circular dependencies** (e.g., Service A requires Service B, but Service B also requires Service A). The constructor approach creates a "chicken and egg" deadlock where neither object can be instantiated first.
+To solve this, we use **Setter Injection**. This variant is more flexible because it separates the object's creation from its dependency resolution.
+
+**How it works:** You instantiate both `ServiceA` and `ServiceB` with empty constructors first. Then, you use a dedicated setter method (e.g., `setServiceB()`) to inject the references into each other essentially "wiring" them after they already exist.
     
     **Without DI (Coupled):**
     
@@ -399,11 +405,17 @@ This defines the skeleton of an algorithm in a superclass but lets subclasses ov
 
 - **Scenario:** A `DataMiner` class. The steps `openFile()`, `extractData()`, and `closeFile()` are defined. Subclasses like `PdfMiner` or `CsvMiner` only override the `extractData()` step.
 
-### Visitor
+### Visitor & Acyclic Visitor
 
-**Visitor** lets you separate algorithms from the objects on which they operate.
-
-- **Scenario:** A tax calculation system. You have different items (Food, Electronics, Books). A `TaxVisitor` can iterate over them and apply the correct tax logic to each class without changing the item classes themselves.
+**Visitor** separates algorithms from the object structure on which they operate. While powerful, the standard implementation comes with a trade-off regarding system stability versus extensibility.
+- **Standard Visitor:** This is ideal when your object structure (the classes) rarely changes, but you frequently define new operations on them.
+  - *The Catch*: It introduces a cyclic dependency. The `Visitor` interface must know about every concrete element type (e.g., `Visit(Book)`, `Visit(Food)`). Adding a new element class forces you to modify the interface and recompile every existing visitor, breaking the Open-Closed Principle.
+- **Acyclic Visitor:** This advanced variant breaks the dependency cycle, allowing you to add new element classes without affecting existing algorithms.
+  - How it works: Instead of a monolithic interface, it often uses dynamic type checking or multiple specific interfaces (e.g., checking `if (visitor is IBookVisitor)`) to decouple the system.
+- **Scenario:** A tax calculation system for an e-commerce platform.
+  - *Standard:* You have stable items like `Book` and `Food`. You can easily add a `HolidayTaxVisitor` or `VATVisitor`. However, if you add a new item type like `NFT`, you break the entire visitor hierarchy.
+  - *Acyclic:* You can introduce the `NFT` class and a corresponding `NFTVisitor` without touching the stable, existing tax logic for books and food.
+- **Traversal Strategies:** Whether using standard or acyclic, remember that traversal logic can be handled by the elements themselves, the visitor, or an external iterator
 
 ---
 
