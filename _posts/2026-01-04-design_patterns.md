@@ -32,13 +32,12 @@ The **Singleton** ensures a class has only one instance and provides a global po
   ```csharp
   using System;
 
-  public class DatabaseConnection
+  public sealed class DatabaseConnection
   {
       // 1. Private static variable to hold the single global instance
       private static DatabaseConnection _instance;
 
       // 2. Private constructor prevents instantiation from other classes
-      //
       private DatabaseConnection(string connectionString)
       {
           this.ConnectionString = connectionString;
