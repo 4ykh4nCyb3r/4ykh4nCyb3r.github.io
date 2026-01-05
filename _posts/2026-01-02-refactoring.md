@@ -87,7 +87,7 @@ This is the reluctance to use small objects for small tasks, such as using `Stri
 
 A class that contains only fields and getter/setter methods (dumb data holders) is a smell. It suggests that the logic which *processes* this data is stored elsewhere, violating encapsulation.
 
-**Refactoring Strategy:**Look for where the data is being used (likely in "Feature Envy" methods) and **Move Method** into the Data Class so it gains real responsibility.
+**Refactoring Strategy:**Look for where the data is being used (likely in "Feature Envy" methods) and **Move Method** into the **Data Class** so it gains real responsibility.
 
 ---
 
@@ -116,11 +116,11 @@ public String getUserSummary(User user) {
 
 This is often seen as `getA().getB().getC().doSomething()`. The client is coupled to the navigation structure of the class graph. If `A` changes how it references `B`, the client breaks. This violates the Law of Demeter.
 
-**Refactoring Strategy:Hide Delegate**. Create a method on `A` that delegates to `C`, preventing the client from seeing the chain.
+**Refactoring Strategy: Hide Delegate**. Create a method on `A` that delegates to `C`, preventing the client from seeing the chain.
 
 ### Inappropriate Intimacy
 
-Classes that know too much about each other's private parts. This creates tight coupling. Refactor by moving methods or fields to reduce this dependency.
+Classes that know too much about each other's private parts. This creates tight coupling. Refactor by **moving methods or fields** to reduce this dependency.
 
 ---
 
@@ -161,7 +161,24 @@ Refactoring is powerful, but it carries risk. The source material outlines criti
 2. **Solid Tests are Mandatory:** You cannot refactor safely without a comprehensive suite of unit tests. Since refactoring changes structure, you need tests to prove you haven't broken functionality.
 3. **Take Small Steps:** Make a small change, run tests, repeat. If a test fails, it is easy to undo and find the bug.
 
-### Summary
+## Matching Refactoring Patterns with Code Smells
+| Code Smell                 | Refactoring Method                                           |
+| :------------------------- | :----------------------------------------------------------- |
+| **Long Method**            | Extract Method                                               |
+| **Large Class**            | Extract Class, Extract Subclass                              |
+| **Duplicated Code**        | Extract Method, Pull Up Method                               |
+| **Feature Envy**           | Move Method, Extract Method                                  |
+| **Primitive Obsession**    | Replace Data Value with Object, Replace Type Code with Class |
+| **Switch Statements**      | Replace Conditional with Polymorphism                        |
+| **Data Clumps**            | Extract Class, Introduce Parameter Object                    |
+| **Message Chains**         | Hide Delegate                                                |
+| **Inappropriate Intimacy** | Move Method, Move Field                                      |
+| **Lazy Class**             | Inline Class, Collapse Hierarchy                             |
+| **Data Class**             | Move Method to Data Class                                    |
+| **Speculative Generality** | Delete the unused code                                       |
+| **Comment Explanations**   | Extract Method                                               |
+
+## Summary
 
 Refactoring improves design, helps find bugs, and actually speeds up programming in the long run. By identifying these smells—from the "Bloaters" like Long Method to the "Couplers" like Feature Envy—you can actively pay down technical debt and keep your software healthy.
 

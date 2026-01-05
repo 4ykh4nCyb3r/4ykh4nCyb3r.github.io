@@ -106,7 +106,7 @@ class OldPrinter : IPrinter { ... }
 
 ### D - Dependency Inversion Principle (DIP)
 
-**The Concept:** High-level modules should not depend on low-level modules; both should depend on abstractions.
+**The Concept:** High-level modules `should not` depend on low-level modules; both should depend on abstractions.
 **The Practicality:** Your business logic shouldn't care if you are saving data to an SQL Database or a text file.
 
 ```csharp
