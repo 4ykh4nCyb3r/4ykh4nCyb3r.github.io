@@ -62,6 +62,27 @@ public void transferFunds(Account from, Account to, BigDecimal amount) {
     }
 }
 ```
+**Pitfall: Unbalanced Locking (The "Reader's Risk")**
+A dangerous misconception is that you only need to lock when changing data. In reality, you must also lock when reading data if that data can be changed by others.
+
+**The Mistake: Protecting Only Writes** If a thread writes to a shared collection (like a Dictionary) inside a lock, but another thread reads from it without a lock, you have a race condition. The reader might catch the collection in an invalid intermediate state (e.g., during an internal resize operation).
+```csharp
+// BAD: The writer is safe, but the reader is completely exposed!
+public void BadExample()
+{
+    // Thread 1: Writes safely
+    lock (_syncRoot) 
+    { 
+        _cache["key"] = 1; 
+    }
+
+    // Thread 2: Reads UNSAFELY (might crash if Thread 1 is resizing the dictionary)
+    var value = _cache["key"]; 
+}
+```
+**The Fix**: **Consistent Locking** or **Thread-Safe Collections** You have two solutions:
+1. **Lock Everywhere:** Wrap both the read and the write in the same lock object.
+2. **Thread-Safe Collections:** Use data structures designed for concurrency (like `ConcurrentDictionary` in C# or `ConcurrentHashMap` in Java), which handle this internal synchronization for you ("Server-side locking").
 
 ### 3. The Balking Pattern
 
