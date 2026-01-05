@@ -10,6 +10,7 @@ media_subpath: /assets/img/posts/2026-01-01-design_principles/
 You write a feature, it works perfectly, and you deploy it. Two months later, a simple requirement change comes in, and suddenly you’re rewriting half the application. Why? Because while the code *worked*, it wasn't *designed* to handle change.
 
 Here I will cover everything from the famous **SOLID** principles to high-level **Package Architecture** and practical rules like **DRY** and **Tell, Don't Ask**.
+![image2.png](image2.png)
 
 ## 1. The SOLID Foundation
 
@@ -136,6 +137,7 @@ Here we discuss how we organize classes into packages or namespaces. This is oft
 - **The Common Closure Principle (CCP):** "Classes that change together, belong together". If changing a database schema requires you to update 5 different packages, your closure is bad. Group related concepts.
 - **Common Reuse Principle (CRP):** Classes that aren’t reused together should not be grouped together
 - **The Acyclic Dependencies Principle (ADP):** Avoid cycles in your dependency graph. If Package A depends on B, and B depends on C, and C depends on A you can never release them independently.
+- **The Stable Dependencies Principle (SDP):** "Depend in the direction of stability." A module should depend only on modules that are more stable than itself. If a module is designed to be volatile (easy to change, like a UI widget), it should depend on stable modules (hard to change, like core business entities). Never let a stable module depend on a volatile one, or your "stable" code will break every time the volatile code changes.
     
     ![image.png](image1.png)
     
