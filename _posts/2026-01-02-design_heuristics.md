@@ -137,8 +137,11 @@ public void Handle(Monster m) {
 Robust design must enforce system constraints effectively.
 
 - **Static Constraints:** Constraints that never change should be encoded in the model's structure. For example, if a specific object type must never possess a certain component, that field should not exist in the class.
+  - **Example:** Think of a **Bicycle** vs. a **Car**. You don't write a rule for a Bicycle saying "Fuel capacity must be 0." Instead, the `Bicycle` class simply does not have a `fuelTank` field. It is structurally impossible to put gas in it.
 - **Dynamic Constraints:** Constraints that depend on input or configuration should be enforced in the constructor to prevent the instantiation of invalid objects.
+  - **Example:** Think of a** Triangle**. A triangle with sides `1`, `2`, and `50` is geometrically impossible (the lines wouldn't touch). The constructor `new Triangle(1, 2, 50)` should throw an exception immediately. It is better to crash now than to create a "broken" shape that causes weird calculation errors hours later.
 - **State-Based Constraints:** Dynamic constraints relying on the object's current state (e.g., "cannot action if empty") should be checked at the beginning of the relevant behavioral methods.
+  - **Example:** Think of an **ATM**. Your bank account is valid, and the ATM is working, but you cannot withdraw money if your balance is zero. The `withdraw(amount)` method must first check `if (balance >= amount)`. If you try to withdraw from an empty account, the action is blocked, but the account object itself remains valid.
 
 ---
 
