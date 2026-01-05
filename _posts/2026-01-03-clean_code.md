@@ -64,6 +64,8 @@ A provocative concept in clean code philosophy is that comments are often an apo
 - **The Rotting Comment:** Code changes frequently; comments rarely do. A comment that explains logic that was deleted months ago is worse than no comment—it is active disinformation .
 - **Avoid Noise:** Do not add comments for the sake of it, such as `// Constructor` above a constructor, or `// increment i` above `i++`. This trains the brain to ignore comments entirely .
 - **Dead Code:** Never leave commented-out code in the source files. It confuses future developers who are afraid to delete it. Trust your Version Control System (Git) to remember history .
+- **Journal Comments:** These are long lists of log entries added to the start of a file every time it is edited. They track dates, author initials, and descriptions of changes (e.g., "11-Oct-2001: Re-organised the class...").
+- **Banner Comments:** These are comments used to create visual separators between different sections of code (e.g., // Properties ///// or // Methods /////).
 
 **Exceptions: When to Comment** While code should explain what is happening, comments are vital for explaining why it is happening or for clarifying obscure formats.
 
