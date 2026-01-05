@@ -162,6 +162,7 @@ Refactoring is powerful, but it carries risk. The source material outlines criti
 3. **Take Small Steps:** Make a small change, run tests, repeat. If a test fails, it is easy to undo and find the bug.
 
 ## Matching Refactoring Patterns with Code Smells
+
 | Code Smell                 | Refactoring Method                                                  |
 | :------------------------- | :------------------------------------------------------------------ |
 | **Long Method**            | Extract Method                                                      |
@@ -179,6 +180,7 @@ Refactoring is powerful, but it carries risk. The source material outlines criti
 | **Comment Explanations**   | Extract Method                                                      |
 | **Shotgun Surgery**        | Move Method/Field (consolidate the dispersed logic in single class) |
 | **Divergent Change**       | Extract Class                                                       |
+| **Long Parameter List**    | Preserve whole object                                               |
 
 
 ## Summary
