@@ -162,21 +162,24 @@ Refactoring is powerful, but it carries risk. The source material outlines criti
 3. **Take Small Steps:** Make a small change, run tests, repeat. If a test fails, it is easy to undo and find the bug.
 
 ## Matching Refactoring Patterns with Code Smells
-| Code Smell                 | Refactoring Method                                           |
-| :------------------------- | :----------------------------------------------------------- |
-| **Long Method**            | Extract Method                                               |
-| **Large Class**            | Extract Class, Extract Subclass                              |
-| **Duplicated Code**        | Extract Method, Pull Up Method                               |
-| **Feature Envy**           | Move Method, Extract Method                                  |
-| **Primitive Obsession**    | Replace Data Value with Object, Replace Type Code with Class |
-| **Switch Statements**      | Replace Conditional with Polymorphism                        |
-| **Data Clumps**            | Extract Class, Introduce Parameter Object                    |
-| **Message Chains**         | Hide Delegate                                                |
-| **Inappropriate Intimacy** | Move Method, Move Field                                      |
-| **Lazy Class**             | Inline Class, Collapse Hierarchy                             |
-| **Data Class**             | Move Method to Data Class                                    |
-| **Speculative Generality** | Delete the unused code                                       |
-| **Comment Explanations**   | Extract Method                                               |
+| Code Smell                 | Refactoring Method                                                  |
+| :------------------------- | :------------------------------------------------------------------ |
+| **Long Method**            | Extract Method                                                      |
+| **Large Class**            | Extract Class, Extract Subclass                                     |
+| **Duplicated Code**        | Extract Method, Pull Up Method                                      |
+| **Feature Envy**           | Move Method, Extract Method                                         |
+| **Primitive Obsession**    | Replace Data Value with Object, Replace Type Code with Class        |
+| **Switch Statements**      | Replace Conditional with Polymorphism                               |
+| **Data Clumps**            | Extract Class, Introduce Parameter Object                           |
+| **Message Chains**         | Hide Delegate                                                       |
+| **Inappropriate Intimacy** | Move Method, Move Field                                             |
+| **Lazy Class**             | Inline Class, Collapse Hierarchy                                    |
+| **Data Class**             | Move Method to Data Class                                           |
+| **Speculative Generality** | Delete the unused code                                              |
+| **Comment Explanations**   | Extract Method                                                      |
+| **Shotgun Surgery**        | Move Method/Field (consolidate the dispersed logic in single class) |
+| **Divergent Change**       | Extract Class                                                       |
+
 
 ## Summary
 
