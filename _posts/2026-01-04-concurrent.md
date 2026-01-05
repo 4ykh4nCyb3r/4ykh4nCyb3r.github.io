@@ -141,6 +141,56 @@ public static DatabaseConnection GetInstance()
     return _instance;
 }
 ```
+**The "Partial Publication" Trap**
+One of the most subtle yet devastating bugs in double-checked locking occurs when an object requires initialization steps after its constructor runs. If you assign the shared static variable before these steps are complete, you risk "publishing" a broken object to other threads.
+
+Consider a **DatabaseService** that needs to open a connection immediately after creation.
+```csharp
+public static DatabaseService GetInstance()
+{
+    if (_instance == null)
+    {
+        lock (_syncRoot)
+        {
+            if (_instance == null)
+            {
+                // FATAL FLAW: The object is assigned to the static field immediately...
+                _instance = new DatabaseService();
+                
+                // ...but the actual connection happens here.
+                // A second thread can now see '_instance' is NOT null, skip the lock,
+                // and try to use the service before this line finishes executing!
+                _instance.OpenConnection(); 
+            }
+        }
+    }
+    return _instance;
+}
+```
+**Why this fails:**
+
+1. Thread A enters the lock and executes `_instance = new DatabaseService()`. The variable `_instance` is now non-null.
+2. Thread A begins the slow `OpenConnection()` method.
+3. Thread B checks if (`_instance == null`). Since it is not null, Thread B returns the instance immediately.
+4. The Crash: Thread B tries to run a query on `_instance`, but the connection is not yet open because Thread A is still working on it.
+**The Fix:** **Use a Local Variable** Always fully initialize the object in a local variable (which is invisible to other threads) before assigning it to the shared static field.
+
+```csharp
+lock (_syncRoot)
+{
+    if (_instance == null)
+    {
+        // 1. Create and initialize internally (Thread-Safe)
+        var tempService = new DatabaseService();
+        tempService.OpenConnection();
+
+        // 2. Publish to the world only when fully ready
+        // (Volatile write ensures the initialized state is visible together with the reference)
+        Thread.MemoryBarrier(); //Memory barrier prevents the compiler optimization to put this line earlier
+        _instance = tempService;
+    }
+}
+```
 
 ## Signaling and Coordination
 
@@ -185,6 +235,40 @@ When a client initiates multiple async operations, responses may arrive out of o
 ### 2. Cancellation Token
 
 Long-running operations (like compiling code or rendering video) may become obsolete before finishing. A Cancellation Token is a shared object passed to the async task. The task periodically checks if the token has been "cancelled" and, if so, aborts gracefully.
+**The "Zombie Thread" Risk**
+You might be tempted to implement cancellation simply by using a boolean flag. This is a common mistake that often leads to threads that refuse to die.
+In this manual implementation, the compiler or CPU optimizes the loop by caching the `_stop` variable. The thread never looks at the main memory again, so it never sees that you set `_stop = true`.
+```csharp
+// ANTI-PATTERN: Manual Boolean Flag
+public class Worker
+{
+    // MISSING 'volatile': The thread creates a cached copy of this false value
+    private bool _stop = false; 
+
+    public void DoWork()
+    {
+        // The loop runs forever because it reads the cached 'false' value
+        while (!_stop) 
+        {
+            // Do work...
+        }
+    }
+
+    public void Stop() { _stop = true; } // The worker thread ignores this update
+}
+```
+The **Cancellation Token** pattern handles these memory visibility complexities for you. It guarantees that the cancellation request is propagated correctly across threads without you needing to worry about CPU registers or the `volatile` keyword.
+```csharp
+// PATTERN: Cancellation Token
+public void DoWork(CancellationToken token)
+{
+    // Safe, standard, and handles memory visibility automatically
+    while (!token.IsCancellationRequested)
+    {
+        // Do work...
+    }
+}
+```
 
 ### 3. Future / Task / Promise
 
@@ -204,6 +288,45 @@ public async Task<Dashboard> LoadDashboardAsync()
 
     // Construct result using the "Futures" that are now resolved
     return new Dashboard(userTask.Result, configTask.Result);
+}
+```
+Using raw threads (the pre-pattern approach) is dangerous because their execution paths are completely independent. If a raw thread throws an exception, it cannot be caught by the code that started it:
+```csharp
+// THE ANTI-PATTERN: Raw Threads
+try {
+    // If 'Go' throws, this catch block sees NOTHING.
+    // The exception stays on the background thread and might terminate the app.
+    new Thread(Go).Start(); 
+} 
+catch (Exception ex) { ... }
+```
+The **Task/Future pattern** solves this by treating an Exception as just another type of "Result."
+1. The background operation throws an error.
+2. The Task object **catches and stores** that error (transitioning to a `Faulted` state).
+3. When the main thread asks for the result (`task.Wait()` or `await task`), the Task **re-throws** the stored exception, allowing you to handle it gracefully.
+```csharp
+public async Task CorrectErrorHandlingAsync()
+{
+    try
+    {
+        // GOOD: The Task object wraps the operation.
+        // If it fails, the Task transitions to a 'Faulted' state
+        // and safely stores the exception inside itself.
+        Task calculation = Task.Run(() => 
+        {
+            throw new InvalidOperationException("Calculation failed!");
+        });
+
+        // The 'await' keyword unboxes the result or the exception.
+        // It sees the Task failed and re-throws the error right here.
+        await calculation;
+    }
+    catch (Exception ex)
+    {
+        // This line IS reached successfully.
+        // You can now handle the error, log it, or retry.
+        Console.WriteLine($"Caught error: {ex.Message}");
+    }
 }
 ```
 
