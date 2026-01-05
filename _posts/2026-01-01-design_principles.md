@@ -139,7 +139,7 @@ Here we discuss how we organize classes into packages or namespaces. This is oft
 - **The Acyclic Dependencies Principle (ADP):** Avoid cycles in your dependency graph. If Package A depends on B, and B depends on C, and C depends on A you can never release them independently.
 - **The Stable Dependencies Principle (SDP):** "Depend in the direction of stability." A module should depend only on modules that are more stable than itself. If a module is designed to be volatile (easy to change, like a UI widget), it should depend on stable modules (hard to change, like core business entities). Never let a stable module depend on a volatile one, or your "stable" code will break every time the volatile code changes.
     
-    ![image.png](image1.png)
+    ![image3.png](image3.png)
     
 
 ---
