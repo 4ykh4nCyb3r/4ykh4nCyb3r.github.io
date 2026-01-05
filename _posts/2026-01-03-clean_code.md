@@ -3,7 +3,7 @@ title: "The Art of Clean Code"
 date: 2026-01-03
 categories: [softeng, OO Software Design] 
 tags: [SOLID, OOP, clean_code]
-image: clean_cod.jpeg
+image: clean_code.jpeg
 media_subpath: /assets/img/posts/2026-01-03-clean_code/
 ---
 
