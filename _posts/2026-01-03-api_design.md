@@ -2,7 +2,7 @@
 title: "API Design Principles"
 date: 2026-01-03
 categories: [softeng, OO Software Design] 
-tags: [SOLID, OOP,API_design]
+tags: [OOP,API_design]
 image: api_desig.jpeg
 media_subpath: /assets/img/posts/2026-01-03-api_design/
 ---
@@ -34,13 +34,16 @@ Consistency reduces the need for documentation. If you use the verb `fetch` for 
 
 ### 3. Minimal Boilerplate
 
-If a user needs to write 20 lines of configuration just to say "Hello World," your API has failed. The interface should be "complete" enough to handle complex tasks, but accessible enough to get up and running in three lines of code.
+If a user needs to write 20 lines of configuration just to say "Hello World," your API has failed. The interface should be "complete" enough to handle complex tasks, but accessible enough to get up and running in three lines of code for the basic scenario: instantiation, basic configuration, and execution.
+
+> The 3-line limit is a metric for the minimum code required to use the API (the "Hello World" case), not a maximum limit for complex, customized configurations.
+{: .prompt-info }
 
 ---
 
 ## The Design Process: Code Last, Specs First
 
-The biggest mistake I see junior engineers make is implementing the logic first and then slapping an interface on top of it. This usually results in an API that leaks implementation details.
+The biggest mistake is implementing the logic first and then slapping an interface on top of it. This usually results in an API that leaks implementation details.
 
 ### The "Wishful Thinking" Approach
 
@@ -96,6 +99,11 @@ Unless there is a compelling performance reason, prefer immutable objects. Mutab
 ### 5. Performance vs. Purity
 
 There is often a temptation to warp an API to make it faster. Resist this. Design the API for clarity and correctness first. Good design usually coincides with good performance, but a convoluted API optimized for a specific micro-benchmark will cause maintenance headaches forever .
+
+### 6. Speak the Local Dialect 
+APIs do not exist in a vacuum; they belong to a specific ecosystem. Do not force Java conventions onto a Python developer, or C# idioms onto a JavaScript user. If you are porting a library from one language to another, you must translate the style as well as the logic. 
+**Conventions:** Respect the local rules for capitalization, getters/setters, and exception handling .
+- A Python user should feel like they are using a native Python library, not a wrapper around a Java class. If your API feels "foreign," developers will struggle to adopt it
 
 ---
 
