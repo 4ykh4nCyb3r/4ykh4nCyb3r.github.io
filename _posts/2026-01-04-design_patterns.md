@@ -29,24 +29,63 @@ The **Singleton** ensures a class has only one instance and provides a global po
 - **Pros:** strict control over the instance, lazy initialization.
 - **Cons:** difficult to unit test and implement correctly in multi-threaded environments.
     
-    ```csharp
-    public sealed class Logger
-    {
-        private static readonly Lazy<Logger> _instance =
-            new Lazy<Logger>(() => new Logger());
+  ```csharp
+  using System;
+
+  public class DatabaseConnection
+  {
+      // 1. Private static variable to hold the single global instance
+      private static DatabaseConnection _instance;
+
+      // 2. Private constructor prevents instantiation from other classes
+      //
+      private DatabaseConnection(string connectionString)
+      {
+          this.ConnectionString = connectionString;
+      }
+
+      public string ConnectionString { get; private set; }
+
+      // 3. Public static accessor (Global Access Point) with Lazy Initialization
+      public static DatabaseConnection Instance
+      {
+          get
+          {
+              // Check if the instance exists; if not, create it.
+              //
+              if (_instance == null)
+              {
+                  _instance = new DatabaseConnection("Server=myServer;Database=myDB;");
+              }
+              return _instance;
+          }
+      }
+
+      // Example business method
+      public void ExecuteQuery(string query)
+      {
+          Console.WriteLine($"Executing query '{query}' on {this.ConnectionString}");
+      }
+  }
+
+  // Client Usage
+  public class Program
+  {
+      public static void Main()
+      {
+          // Access the single instance
+          var db = DatabaseConnection.Instance;
+          
+          db.ExecuteQuery("SELECT * FROM Users");
+
+          // Verify it is the same instance
+          var db2 = DatabaseConnection.Instance;
+          Console.WriteLine(ReferenceEquals(db, db2)); // Output: True
+      }
+  }  
     
-        public static Logger Instance => _instance.Value;
-    
-        // Private constructor prevents external instantiation
-        private Logger() { }
-    
-        public void Log(string message)
-        {
-            Console.WriteLine($"[LOG] {message}");
-        }
-    }
     	
-    ```
+  ```
     
 
 ### Factory Method (Virtual Constructor)

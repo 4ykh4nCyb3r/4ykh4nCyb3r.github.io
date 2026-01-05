@@ -309,6 +309,7 @@ When a client initiates multiple async operations, responses may arrive out of o
 ### 2. Cancellation Token
 
 Long-running operations (like compiling code or rendering video) may become obsolete before finishing. A Cancellation Token is a shared object passed to the async task. The task periodically checks if the token has been "cancelled" and, if so, aborts gracefully.
+
 **The "Zombie Thread" Risk**
 You might be tempted to implement cancellation simply by using a boolean flag. This is a common mistake that often leads to threads that refuse to die.
 In this manual implementation, the compiler or CPU optimizes the loop by caching the `_stop` variable. The thread never looks at the main memory again, so it never sees that you set `_stop = true`.
