@@ -65,7 +65,36 @@ A provocative concept in clean code philosophy is that comments are often an apo
 - **Avoid Noise:** Do not add comments for the sake of it, such as `// Constructor` above a constructor, or `// increment i` above `i++`. This trains the brain to ignore comments entirely .
 - **Dead Code:** Never leave commented-out code in the source files. It confuses future developers who are afraid to delete it. Trust your Version Control System (Git) to remember history .
 
-*Exceptions:* Comments are useful for legal warnings, explaining the *intent* (the "why," not the "what"), or warning about consequences (e.g., "This test is slow") .
+**Exceptions: When to Comment** While code should explain what is happening, comments are vital for explaining why it is happening or for clarifying obscure formats.
+
+- **Explanation of Intent:** Use this when the code does something that might look like a mistake or an arbitrary choice to a new developer. You are explaining the decision, not the syntax.
+  ```csharp
+  // We force a 50ms delay here because the external payment gateway
+  // rejects requests that happen too instantly after a token generation.
+  await Task.Delay(50)
+  ```
+- **Clarification:** Use this to make obscure formats or arguments readable. This is common for Regular Expressions or complex string formats.
+  ```csharp
+  // Cron pattern: At 04:00 on every 1st day-of-month.
+  string monthlyReportSchedule = "0 4 1 * *";
+  ```
+- **Warning of Consequences:** Use this when a function has a side effect or performance cost that isn't obvious from its name.
+  ```csharp
+  // WARNING: This method loads the full transaction history into memory.
+  // Do not call this on the main thread or for accounts with >10k records.
+  public List<Transaction> ExportAllHistory() { ... }
+  ```
+- **Amplification**: Use this to highlight a line of code that looks redundant or trivial but is actually critical for correctness.
+  ```csharp
+  fileStream.Flush(); // Crucial! If we don't flush before the close, the footer byte is lost.
+  fileStream.Close();
+  ```
+- **TODOs (Contextual):** Use this to mark technical debt with a clear path to resolution.
+  ```csharp
+  // TODO: Refactor to use the bulk-insert API once the database team upgrades to v4.5.
+  // Currently limited to row-by-row insertion.
+  foreach (var item in items) { ... }
+  ```
 
 ## 4. Error Handling: Stability and Clarity
 
@@ -73,6 +102,7 @@ Proper error handling is distinct from business logic. Mixing the two creates "s
 
 - **Exceptions over Error Codes:** Returning error codes (like `1` or `false`) forces the caller to check the return value immediately, cluttering the logic. Use exceptions to separate the "happy path" from error handling .
 - **Context matters:** When throwing exceptions, provide context. A generic "System Error" is useless for debugging. The exception should explain the intent and the failure .
+- **Design for the Caller:** Define exception classes based on the **caller’s needs**, not the implementation details. If a caller handles three different low-level errors (like `SocketTimeout`, `ConnectionRefused`, `DnsFailure`) in the exact same way, wrap them in a single high-level exception (e.g., `PortDeviceFailure`). This prevents the calling code from being polluted with multiple repetitive catch blocks.
 - **The Null Problem:**
     - **Don't Return Null:** Returning `null` forces every caller to add a null check. If one check is missed, the application crashes. Return an empty list or a special "Null Object" instead .
     - **Don't Pass Null:** Unless an API explicitly expects it, passing `null` is the fastest way to generate runtime errors .
@@ -85,6 +115,11 @@ There is a distinct architectural difference between an Object and a Data Struct
 - **Objects** hide their data (encapsulation) and expose behaviors/methods to manipulate that data .
 
 **The Law of Demeter** suggests that a module should not know the inner details of the objects it manipulates. We want to avoid "train wrecks"—chains of calls like `car.GetEngine().GetFuelSystem().GetTankCapacity()`. This tightly couples the code to the internal structure of the `Car` .
+
+**Regarding choosing Object-Oriented or Procedural approaches:** Both of them are perfectly OK just make sure to chose the approach that is the best for the job at hand.
+**Procedural code** (using data structures) is actually preferred when "new functions are frequently added but the data structure is stable," whereas **Object-Oriented code** is preferred when "internal data representation can change" or "new functions are rarely added"
+
+In an application developed in an object-oriented programming language there can be data structures developed in a procedural way such as `DTOs`.
 
 ## Summary
 
