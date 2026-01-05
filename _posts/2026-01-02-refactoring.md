@@ -51,6 +51,7 @@ public void createInvoice(UserProfile user, BillingConfig billing) { ... }
 ### Data Clumps
 
 This occurs when the same group of data items (e.g., `x`, `y`, `z` coordinates or `startDate`, `endDate`) appears together in multiple places. This is a sign that these data items belong in their own class.
+**Refactoring strategy:** Introduce Parameter Object.
 
 ---
 
@@ -93,8 +94,8 @@ A class that contains only fields and getter/setter methods (dumb data holders) 
 This occurs when a subclass inherits methods or data from a parent class but only uses a fraction of them. It suggests the hierarchy is wrong (the "Child" isn't truly a version of the "Parent"). A common symptom is a subclass overriding a method just to make it throw a `NotImplementedException`. 
 
 **Refactoring Strategy:**
-- If the inheritance makes sense but the parent has too much specific logic: Push Down Method or Push Down Field to move the unused parts to a sibling class.
-- If the subclass and parent are entirely different concepts (e.g., a `Stack` inheriting from `List` just to reuse code): Replace Inheritance with Delegation. Remove the inheritance link and give the subclass a field that holds the "Parent" object instead.
+- If the inheritance makes sense but the parent has too much specific logic: **Push Down Method or Push Down Field** to move the unused parts to a sibling class.
+- If the subclass and parent are entirely different concepts (e.g., a `Stack` inheriting from `List` just to reuse code): **Replace Inheritance with Delegation**. Remove the inheritance link and give the subclass a field that holds the "Parent" object instead.
 
 ---
 
@@ -141,8 +142,9 @@ These two are often confused but are opposites:
 
 1. **Divergent Change:** You make many different types of changes to *one single class* (e.g., modifying the same class for DB changes, UI changes, and business logic).
     - *Fix:* **Extract Class**. Separate the distinct responsibilities.
-2. **Shotgun Surgery:** You make *one* logical change (e.g., adding a currency type), but you have to make small edits to *many different classes*.
+2. **Shotgun Surgery:** You make *one* logical change (e.g., adding a currency type), but you have to make small edits to *many different classes*. The sub-problem of this code smell is `Excessive use of literals`.
     - *Fix:* **Move Method/Field**. Consolidate the dispersed logic into a single class.
+      - **Replace magic numbers with symbolic constant**
 
 ---
 
@@ -170,24 +172,28 @@ Refactoring is powerful, but it carries risk. The source material outlines criti
 
 ## Matching Refactoring Patterns with Code Smells
 
-| Code Smell                 | Refactoring Method                                                  |
-| :------------------------- | :------------------------------------------------------------------ |
-| **Long Method**            | Extract Method                                                      |
-| **Large Class**            | Extract Class, Extract Subclass                                     |
-| **Duplicated Code**        | Extract Method, Pull Up Method                                      |
-| **Feature Envy**           | Move Method, Extract Method                                         |
-| **Primitive Obsession**    | Replace Data Value with Object, Replace Type Code with Class        |
-| **Switch Statements**      | Replace Conditional with Polymorphism                               |
-| **Data Clumps**            | Extract Class, Introduce Parameter Object                           |
-| **Message Chains**         | Hide Delegate                                                       |
-| **Inappropriate Intimacy** | Move Method, Move Field                                             |
-| **Lazy Class**             | Inline Class, Collapse Hierarchy                                    |
-| **Data Class**             | Move Method to Data Class                                           |
-| **Speculative Generality** | Delete the unused code                                              |
-| **Comment Explanations**   | Extract Method                                                      |
-| **Shotgun Surgery**        | Move Method/Field (consolidate the dispersed logic in single class) |
-| **Divergent Change**       | Extract Class                                                       |
-| **Long Parameter List**    | Preserve whole object                                               |
+| Code Smell                 | Refactoring Method                                                         |
+| :------------------------- | :------------------------------------------------------------------------- |
+| **Long Method**            | Extract Method                                                             |
+| **Large Class**            | Extract Class, Extract Subclass                                            |
+| **Duplicated Code**        | Extract Method, Pull Up Method                                             |
+| **Feature Envy**           | Move Method, Extract Method                                                |
+| **Primitive Obsession**    | Replace Data Value with Object, Replace Type Code with Class               |
+| **Switch Statements**      | Replace Conditional with Polymorphism                                      |
+| **Data Clumps**            | Extract Class, Introduce Parameter Object                                  |
+| **Message Chains**         | Hide Delegate                                                              |
+| **Inappropriate Intimacy** | Move Method, Move Field                                                    |
+| **Lazy Class**             | Inline Class, Collapse Hierarchy                                           |
+| **Data Class**             | Move Method to Data Class                                                  |
+| **Speculative Generality** | Delete the unused code                                                     |
+| **Comment Explanations**   | Extract Method                                                             |
+| **Shotgun Surgery**        | Move Method/Field (consolidate the dispersed logic in single class)        |
+| **Divergent Change**       | Extract Class                                                              |
+| **Long Parameter List**    | Preserve whole object                                                      |
+| **Refused Bequest**        | Push Down Method / Push Down Field OR Replace inheritance with delegation* |
+
+> Replace Inheritance with Delegation only if subclass and parent are entirely different concepts.
+{: .prompt-info }
 
 
 ## Summary
