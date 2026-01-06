@@ -153,7 +153,7 @@ A common misconception is that immutability is wasteful because every change req
 Advanced immutable collections (like `ImmutableList<T>`) use **Balanced Binary Trees** rather than arrays.
 
 > **Balanced Binary Tree:** a tree data structure where the height of the left and right subtrees of any node differs by at most one.
-{ : .prompt-info }
+{: .prompt-info }
 
 ![image.png](image.png)
 
