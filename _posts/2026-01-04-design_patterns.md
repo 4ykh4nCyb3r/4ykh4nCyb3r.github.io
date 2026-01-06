@@ -454,6 +454,13 @@ This defines the skeleton of an algorithm in a superclass but lets subclasses ov
   - *Standard:* You have stable items like `Book` and `Food`. You can easily add a `HolidayTaxVisitor` or `VATVisitor`. However, if you add a new item type like `NFT`, you break the entire visitor hierarchy.
   - *Acyclic:* You can introduce the `NFT` class and a corresponding `NFTVisitor` without touching the stable, existing tax logic for books and food.
 - **Traversal Strategies:** Whether using standard or acyclic, remember that traversal logic can be handled by the elements themselves, the visitor, or an external iterator
+  
+| Feature                | Standard Visitor                                                                                                  | Acyclic Visitor                                                                                                                                                    |
+| :--------------------- | :---------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Dependencies**       | **Cyclic:** The Visitor must know every Element; Elements must know the Visitor.                                  | **Acyclic:** The dependency cycle is broken. The Visitor interface is generic or degenerate (empty).                                                               |
+| **Interfaces**         | One giant interface with methods for *every* concrete element (e.g., `visit(ElementA)`, `visit(ElementB)`).       | Many tiny, specific interfaces, one for each element (e.g., `VisitorForA`, `VisitorForB`).                                                                         |
+| **Dispatch Mechanism** | **Static Double Dispatch:** The compiler guarantees the correct method is called.                                 | **Dynamic Cast / Reflection:** The `accept` method uses `dynamic_cast` (or `instanceof`) to check if the visitor supports that specific element.                   |
+| **Type Safety**        | **Compile-time safe:** If you add an Element, you *must* update the Visitor interface, or the code won't compile. | **Runtime check:** If a Visitor doesn't implement the specific interface for an element, the operation simply fails or does nothing at runtime (no compile error). |
 
 ---
 
