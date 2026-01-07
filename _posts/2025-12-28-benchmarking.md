@@ -99,6 +99,13 @@ To avoid these errors, we use specialized frameworks like JMH. JMH handles the b
 **Strategies for Accurate Micro-benchmarks**
 
 - **Use Blackholes:** To prevent Dead Code Elimination, we pass results into a `"Blackhole"` object. This tricks the compiler into thinking the result is needed, forcing the computation to occur.
+    ```java
+    @Benchmark
+    public void measureRuntime(Blackhole bh) { 
+    // The Blackhole forces the JIT to actually execute the constructor
+    bh.consume(new NewDataStructure(20, false, 1)); 
+    }
+    ```
 - **Isolate Garbage Collection:** GC pauses introduce noise. To measure memory requirements, we can perform separate runs where we incrementally lower the heap size (`-Xmx`) until the application crashes to find the baseline requirement.
 - **Parameterization:** Run benchmarks against multiple data sizes (e.g., varying payload sizes for a cryptographic check) to see how the algorithm scales.
 
@@ -167,4 +174,4 @@ Performance is not an accident; it is an engineered outcome. By distinguishing b
 
 ---
 
-***Attribution:** This post is a synthesis of concepts and technical notes derived from "ASE-Lec08-ENG-PerformanceBenchmark" by the Critical Systems Research Group.*
+**Attribution:** *This post is a synthesis of concepts and technical notes derived from "ASE-Lec08-ENG-PerformanceBenchmark" by the Critical Systems Research Group.*
