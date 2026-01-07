@@ -38,6 +38,8 @@ We must also distinguish between two modes of operation:
 
 **Key Takeaway:** Never skip EDA. Jumping straight to CDA usually leads to testing the wrong things based on incorrect assumptions.
 
+![image3](image3.jpg)
+
 ## 2. Data Models and Preparation
 
 Before analysis, data must be structured. While we often deal with Graph models (network topologies) or Document models (JSON logs), the **Tabular Model** remains the gold standard for analytical processing.
@@ -90,6 +92,8 @@ The Boxplot is arguably the most efficient tool for summarizing distributions. I
 3. **Whiskers:** Extending to the rest of the distribution (usually 1.5x IQR).
 4. **Outliers:** Individual points beyond the whiskers.
 
+![boxplot](image2.webp)
+
 This allows us to instantly see if a dataset is skewed or if it contains significant anomalies.
 
 ## 5. Visualizing Relationships
@@ -97,6 +101,8 @@ This allows us to instantly see if a dataset is skewed or if it contains signifi
 ### Bivariate Analysis
 
 When correlating two variables (e.g., Memory Usage vs. Garbage Collection Duration), **Scatterplots** are the standard. However, they suffer from **Overplotting** when data volume is high—thousands of points overlapping form a useless black blob.
+
+![scatterplot](image1.jpg)
 
 **Solutions for Overplotting:**
 
@@ -124,4 +130,4 @@ By applying these structured techniques, we transform opaque logs into clear, ac
 
 ---
 
-***Acknowledgment:** Based on an interpretation of the "Data Analysis" lecture materials by Andras Foldvari, Budapest University of Technology and Economics.*
+**Acknowledgment:** *Based on an interpretation of the "Data Analysis" lecture materials by Andras Foldvari, Budapest University of Technology and Economics.*
