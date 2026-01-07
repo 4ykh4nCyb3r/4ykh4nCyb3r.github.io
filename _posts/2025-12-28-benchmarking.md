@@ -19,20 +19,20 @@ Before we write code to measure performance, we must understand the fundamental 
 
 ### The Stable State
 
-To measure anything reliably, a system must be in a **stable state**. This occurs when the number of requests currently being processed remains approximately constant over time. In this state, the Arrival Rate `lambda` equals the Throughput X.
+To measure anything reliably, a system must be in a **stable state**. This occurs when the number of requests currently being processed remains approximately constant over time. In this state, the Arrival Rate `lambda` equals the Throughput `X`.
 
-- **Arrival Rate ($\ lambda $):** The number of requests arriving per unit of time (e.g., requests/sec).
-- **Throughput ($\ X $):** The number of requests successfully served per unit of time.
+- **Arrival Rate `lambda`:** The number of requests arriving per unit of time (e.g., requests/sec).
+- **Throughput `X`:** The number of requests successfully served per unit of time.
 
-If $\ lambda  > X $, requests arrive faster than they can be served. Queues fill up, latency spikes, and stability is lost.
+If `lambda`  > `X`, requests arrive faster than they can be served. Queues fill up, latency spikes, and stability is lost.
 
 ### The Load Diagram: Ideal vs. Real
 
-When we visualize performance, we plot Throughput (\$X$) against the Arrival Rate ($\lambda$).
+When we visualize performance, we plot Throughput (`X`) against the Arrival Rate (`lambda`).
 
-1. **Ideal Behavior:** Throughput increases linearly with the arrival rate ($\lambda = X$) until the system hits its physical limit, known as **Maximum Throughput ($X_{max}$).** At this point, **Utilization ($U$)** is 100%, calculated as $U = \frac{X}{X_{max}}$.
+1. **Ideal Behavior:** Throughput increases linearly with the arrival rate `lambda = X` until the system hits its physical limit, known as **Maximum Throughput `X_max`.** At this point, **Utilization (`U`)** is 100%, calculated as `U = X/X_max`.
 2. **Real-World Behavior:** Systems rarely hit a hard flat ceiling. Instead, as they approach saturation, overhead (context switching, resource contention) causes throughput to degrade *before* hitting the theoretical maximum.
-3. **Thrashing:** In severe cases, pushing $\lambda$ far beyond $X_{max}$ causes throughput to actually *decrease*. This is often due to the system spending more time managing the backlog (e.g., GC thrashing, lock contention) than doing useful work.
+3. **Thrashing:** In severe cases, pushing `lambda` far beyond `X_max` causes throughput to actually *decrease*. This is often due to the system spending more time managing the backlog (e.g., GC thrashing, lock contention) than doing useful work.
 
 ---
 
