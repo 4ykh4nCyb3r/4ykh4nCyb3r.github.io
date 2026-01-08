@@ -3,8 +3,8 @@ title: "The Art of Static Verification: shifting Quality Left"
 date: 2025-12-28
 categories: [softeng, Automated Software Engineering] 
 tags: [AppSec, SAST, Engineering, DevSecOps]
-image: sas.jpeg
-media_subpath: /assets/img/posts/2025-12-28-sast/
+image: sast.jpeg
+media_subpath: /assets/img/posts/2025-12-28-static_analysis/
 ---
 
 In the modern software development lifecycle (SDLC), the cost of fixing a bug grows exponentially the later it is discovered. A defect found in production might cost 100x more to fix than one found during the design or coding phase. This reality has driven the industry toward a `"Shift Left"` mentality—moving verification and validation as early in the process as possible.
