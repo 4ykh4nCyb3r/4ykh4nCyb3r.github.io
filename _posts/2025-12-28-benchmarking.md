@@ -174,4 +174,4 @@ Performance is not an accident; it is an engineered outcome. By distinguishing b
 
 ---
 
-**Attribution:** *This post is a synthesis of concepts and technical notes derived from "ASE-Lec08-ENG-PerformanceBenchmark" by the Critical Systems Research Group.*
+**Attribution:** *This post is a synthesis of concepts and technical notes derived from "ASE-PerformanceBenchmark" by the Critical Systems Research Group.*
