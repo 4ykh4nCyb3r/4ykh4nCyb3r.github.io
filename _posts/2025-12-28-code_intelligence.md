@@ -1,5 +1,5 @@
 ---
-title: "The Convergence of Code Intelligence: Bridging Static Analysis and Generative AI"
+title: "Code Intelligence: Bridging Static Analysis and Generative AI"
 date: 2025-12-28
 categories: [softeng, Automated Software Engineering] 
 tags: [MDE, SoftwareArchitecture, AppSec, code_intelligence, AI, LLM, Engineering, DevSecOps]
