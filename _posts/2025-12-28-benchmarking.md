@@ -136,7 +136,7 @@ When the whole system is slow, we use profilers (like VisualVM) to look inside t
 1. **Sampling:** The profiler periodically checks the stack traces of running threads and **makes snapshots**.
     - *Pros:* Low overhead, realistic distribution of runtime.
     - *Cons:* Statistical approximation; might miss very fast, frequent function calls.
-2. **Instrumentation (Tracing):** The profiler modifies the bytecode to record every single method entry and exit.
+2. **Profiling:** The profiler modifies the bytecode to record every single method entry and exit.
     - *Pros:* Exact invocation counts.
     - *Cons:* Changes the original code. Huge performance penalty, potentially distorting the results so much that they no longer reflect reality.
 
