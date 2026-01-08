@@ -106,7 +106,7 @@ When correlating two variables (e.g., Memory Usage vs. Garbage Collection Durati
 
 **Solutions for Overplotting:**
 
-- **Jitter:** Adding random noise to separate overlapping points.
+- **Jitter:** Adding a tiny amount of random noise to separate overlapping points.
 - **Transparency (Alpha Blending):** Making points semi-transparent so dense areas appear darker.
 - **Binning/Hexbins:** Aggregating points into geometric shapes and coloring them by density.
 

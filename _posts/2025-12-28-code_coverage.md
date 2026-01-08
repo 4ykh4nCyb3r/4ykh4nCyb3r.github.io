@@ -1,5 +1,5 @@
 ---
-title: "Automating Software Robustness: Code Coverage and Randoop"
+title: "Code Coverage and Randoop"
 date: 2025-12-28
 categories: [softeng, Automated Software Engineering] 
 tags: [AppSec, Randoop, code_coverage, Engineering, DevSecOps]
