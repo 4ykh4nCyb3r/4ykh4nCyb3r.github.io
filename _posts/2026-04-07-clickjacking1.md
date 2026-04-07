@@ -4,7 +4,7 @@ date: 2026-04-07
 categories: [portswigger, Clickjacking] 
 tags: [clickjacking]
 image: portswigger.png
-media_subpath: /assets/img/posts/2026-04-07-clickjacking1/
+media_subpath: /assets/img/posts/2025-12-23-lab2_api_testing/
 ---
 
 ## 1. Executive Summary
