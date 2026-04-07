@@ -137,6 +137,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 *A Python script to generate the HTML payload for the Exploit Server. It dynamically constructs the pre-populated URL and outputs the CSS/HTML.*
 
+{% raw %}
 ```python
 #!/usr/bin/env python3
 import argparse
@@ -207,6 +208,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endraw %}
 
 ## 6. Static Analysis (Semgrep)
 
